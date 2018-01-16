@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+{% extends "firstapp/base.html" %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% load embed_video_tags %}
+  {% block title_block %}
+        <title>{{ user }} Home | Auction |Auction Details</title>
+  {% endblock %}
+  {% block body_block %}
+  <ul class="breadcrumb">
+
+      <li><a href="{% url 'User:home' %}">{{ user }} Home</a></li>
+      <li><a href="{% url 'User:auctions' %}">Auction</a></li>
+      <li class="active"><a href=" ">Bid Item</a></li>
+
+  </ul>
+  <style type="text/css">
+
+
+#bid_form {
+  position:relative;
+  width:340px;
+  height:250px;
+  margin:50px auto;
+  text-align:center;
+  background:#ecf0f1;
+  padding:40px;
+  -webkit-border-radius:6px;
+     -moz-border-radius:6px;
+          border-radius:6px;
+  -webkit-box-shadow: 0px 1px 0px #ad392d, inset 0px 1px 0px white;
+     -moz-box-shadow: 0px 1px 0px #ad392d, inset 0px 1px 0px white;
+          box-shadow: 0px 1px 0px #ad392d, inset 0px 1px 0px white;
+}
+
+#jam {
+  font:2em 'Open Sans';
+  font-weight:300;
+  margin-bottom:25px;
+  color:#7f8c8d;
+  text-shadow:1px 1px 0px white;
+}
+
+#hhh {
+  display:block;
+  width:225px;
+  padding:14px;
+  -webkit-border-radius:6px;
+     -moz-border-radius:6px;
+          border-radius:6px;
+  border:0;
+  margin-bottom:10px;
+  color:#7f8c8d;
+  outline:none;
+  font-weight:600;
+}
+
+#hhh:focus {
+  background:#fafafa;
+}
+
+::-webkit-input-placeholder {
+  color: #95a5a6;
+  font-weight:300;
+}
+
+:-moz-placeholder {
+  color: #95a5a6;
+  font-weight:300;
+}
+
+::-moz-placeholder { 
+  color: #95a5a6;
+  font-weight:300;
+}
+
+:-ms-input-placeholder {  
+  color: #95a5a6;
+  font-weight:300;
+}
+
+
+
+    #demo {
+      display: none;
+    }
+
+
+.clock {
+  margin: 50px auto;
+  text-align: center;
+  cursor: default;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.clock-block {
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: 100px;
+  height: 98px;
+  margin: 0 8px;
+  padding-top: 16px;
+  line-height: 1;
+  font-family: Helvetica, Arial, sans-serif;
+  text-align: center;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.3);
+  background: #e5e7eb;
+  border: 1px solid #9fa2ad;
+  border-radius: 3px 3px 2px 2px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  background-image: -webkit-linear-gradient(top, #f1f2f5, #e5e7eb 20%, #c2c5d1 50%, #e5e7eb 80%, #e4e5eb);
+  background-image: -moz-linear-gradient(top, #f1f2f5, #e5e7eb 20%, #c2c5d1 50%, #e5e7eb 80%, #e4e5eb);
+  background-image: -o-linear-gradient(top, #f1f2f5, #e5e7eb 20%, #c2c5d1 50%, #e5e7eb 80%, #e4e5eb);
+  background-image: linear-gradient(to bottom, #f1f2f5, #e5e7eb 20%, #c2c5d1 50%, #e5e7eb 80%, #e4e5eb);
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.clock-block:before, .clock-block:after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: -1px;
+  right: -1px;
+  z-index: -1;
+  height: 4px;
+  background: #cacfd9;
+  border: 1px solid #9fa2ad;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4), 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.clock-block:before { bottom: -7px; }
+
+.clock-val {
+  display: block;
+  position: relative;
+  z-index: 1;
+  font-size: 64px;
+  font-weight: bold;
+  color: #4f5258;
+}
+
+.clock-val:before, .clock-val:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.clock-val:before {
+  z-index: -1;
+  top: -16px;
+  bottom: 50%;
+  border-radius: 2px 2px 0 0;
+  -webkit-box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.clock-val:after {
+  top: 50%;
+  bottom: -16px;
+  border-top: 1px solid rgba(60, 62, 68, 0.4);
+  border-radius: 0 0 2px 2px;
+  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0) 50%);
+  background-image: -moz-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0) 50%);
+  background-image: -o-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0) 50%);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0) 50%);
+  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.clock-unit {
+  display: block;
+  margin-top: -2px;
+  font-size: 13px;
+  font-weight: 200;
+  color: #6b707a;
+  text-transform: capitalize;
+}
+
+.clock-unit:after {
+  content: '';
+  position: absolute;
+  z-index: -2;
+  top: 100%;
+  left: -1px;
+  right: -1px;
+  height: 30px;
+  margin-top: 6px;
+  border-radius: 0 0 3px 3px;
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0));
+  background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0));
+  background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0));
+}
+
+  </style>
+  <script type="text/javascript">
+    //$('#padZeroes').countdown({until: liftoffTime, padZeroes: true});
+    $(document).ready(function() {
+      // console.log($('#demo').text());
+      $('#demo').change(function() {
+        
+      });
+
+      
+      });
+      window.onload = function() {            
+          
+          var c = setInterval(function () {
+            $( "#demo" ).change(function () {
+             if($('#demo').text()=="EXPIRED"){
+              $.ajax({
+                url: "{% url 'User:deleteauction' %}",
+                data: {
+                  slug   : $('#slug').val(),
+                  csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                },
+                type: 'post',
+                success: function(obj) {
+                    location.href = "{% url 'User:auctions' %}"
+                }
+              });
+               clearInterval(c);
+            }
+            }).change();
+          }, 500);
+          
+      }
+
+
+      // Update the count down every 1 second
+      var x = setInterval(function() {
+          var arr_from_json = JSON.parse( $('#h').val() );
+          var date = new Date(arr_from_json[0].duration);
+          
+          // Get todays date and time
+          var now = new Date().getTime();
+          
+          // Find the distance between now an the count down date
+          var distance = date.getTime() - now;
+          console.log(distance);
+          console.log(now);
+          console.log(date.getTime());
+          // Time calculations for days, hours, minutes and seconds
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          $('#days').text(days);
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var hours = hours;
+          $('#hours').text(hours);
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          minutes = minutes ;
+          $('#minutes').text(minutes);
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+           $('#seconds').text(seconds);
+          // Output the result in an element with id="demo"
+          $('#demo').text(days + "d " + hours + "h "
+          + minutes + "m " + seconds + "s ");
+          
+          // If the count down is over, write some text 
+          if (distance < 0) {
+              clearInterval(x);
+              $('#demo').text("EXPIRED");
+
+          }
+         
+      }, 1000);
+    $('#padZeroes').countdown({until: liftoffTime, padZeroes: true});
+    
+  </script>
+  <div class="sidebar col-md-3 col-sm-3">
+
+    <img style=" padding-top:100px; height: 100%;width: 100%;" src="https://media.giphy.com/media/l3q2F1AOrVKJRkwik/giphy.gif"></img>
+
+  </div>
+  <div class="col-md-9 col-sm-9">
+
+  <p class="clock">
+      
+        <span class="clock-block">
+          <span id="days" class="clock-val">00</span>
+          <span class="clock-unit">Days</span>
+        </span>
+        <span class="clock-block">
+          <span id="hours" class="clock-val">00</span>
+          <span class="clock-unit">Hours</span>
+        </span>
+        <span class="clock-block">
+          <span id="minutes" class="clock-val">00</span>
+          <span class="clock-unit">minutes</span>
+        </span>
+        <span class="clock-block">
+          <span id="seconds" class="clock-val">00</span>
+          <span class="clock-unit">seconds</span>
+        </span>
+  </p>
+  
+  <div class="formss">
+    <p id="demo" ></p>
+
+    <form id="bid_form" role="form" enctype="multipart/form-data" method="POST">
+      {% csrf_token %}
+      <!-- <button class="btn btn-primary" type="submit">Post a Comment</button> -->
+      <div id="" class="form-group">
+         <div class="sidebar col-md-12 col-sm-12">
+
+          <!-- <input placeholder="Bids ......." form="bid_form"  class="form-control" id="comm" rows="8" ></input> -->
+           <div class="form-group">
+              <label id="jam" for="firstname">Amount of Bids <span class="require">*</span></label>
+              <div class="col-rg-12">
+                <div class="field">
+                  {{ AuctionsForm.bids|add_class:"form-control"|attr:"id:hhh"  }}
+                </br>
+                  <button class="btn btn-primary" type="submit" id="senderr">BID</button>
+                </br>
+              </br>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      
+      <input id="slug" type="hidden" name="id" value="{{ item.slug }}">
+    </form>
+   
+    <input id="h" type="hidden" name="id" value="{{ auct }}">
+  </div>
+  </div>
+
+    {% endblock %}

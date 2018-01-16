@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+{% extends "firstapp/base.html" %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+{% block title_block %}
+  <title>Sell An Item</title>
+{% endblock %}
+{% block body_block %}
+
+        <ul class="breadcrumb">
+
+
+            <li><a href="{% url 'User:home' %}">{{ user }} Home</a></li>
+            <li class="active"><a href=""> Sell An Item</a></li>
+        </ul>
+
+        {% if isposted %}
+        <div class="sidebar col-md-3 col-sm-3">
+          <ul class="list-group margin-bottom-25 sidebar-menu">
+
+          </ul>
+        </div>
+          <h1>Thank you for posting an item!</h1>
+        {% else %}
+        <div class="row margin-bottom-40">
+          <!-- BEGIN SIDEBAR -->
+
+          <!-- END SIDEBAR -->
+
+          <!-- BEGIN CONTENT -->
+
+          <div class="col-md-12 col-sm-12">
+            <h1>Put Details Of Your Specefic Item Below...</h1>
+            <div class="content-form-page">
+              <div class="row">
+                <div class="col-md-9 col-sm-9">
+                  <form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST">
+                      {% csrf_token %}
+                      <div class="sidebar col-md-3 col-sm-3">
+                        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+
+                        <fieldset>
+                          <legend>Item's Picture</legend>
+                          <div class="form-group">
+
+                              <div class="text-center">
+                                <img class="rounded" src="{% static "assets/pages/img/works/image.png"%}" id="profile-img-tag" width="200px" />
+
+
+                              </div>
+                              <p><hr></p>
+                              <div class="text-center">
+                              <label class="btn btn-primary btn-file">
+
+                                      <div class="field">
+                                        {{ selliteminfo.item_pic|add_class:"form-control"|attr:"style:display: none"|attr:"id:profile-img" }}
+                                      </div>
+
+
+                              Upload Picture Of Your Item</label>
+                              </div>
+                          </div>
+                        </fieldset>
+                        <style>
+                          #jj {
+                            color: #000033;
+                            font-style: oblique;
+                          }
+                          </style>
+                        <script type="text/javascript">
+                              function readURL(input) {
+                                  if (input.files && input.files[0]) {
+                                      var reader = new FileReader();
+                                      reader.onload = function (e) {
+                                          $('#profile-img-tag').attr('src', e.target.result);
+                                      }
+                                      reader.readAsDataURL(input.files[0]);
+                                  }
+                              }
+                              $("#profile-img").change(function(){
+                                  readURL(this);
+                              });
+
+                              function getLocationConstant() {
+                                  if (navigator.geolocation) {
+                                      navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError);
+                                  } else {
+                                      alert("Your browser or device doesn't support Geolocation");
+                                  }
+                              }
+
+                              // If we have a successful location update
+                              function onGeoSuccess(event) {
+                                  document.getElementById("Latitude").value = event.coords.latitude;
+                                  document.getElementById("Longitude").value = event.coords.longitude;
+
+                              }
+
+                              // If something has gone wrong with the geolocation request
+                              function onGeoError(event) {
+                                  alert("Error code " + event.code + ". " + event.message);
+                              }
+                        </script>
+                      </div>
+                      <!-- {{ selliteminfo.as_p }} -->
+                    <div class="sidebar col-md-9 col-sm-9">
+
+                    <fieldset>
+                        <legend>Item's discription</legend>
+                        <div class="form-group">
+                          <label for="lastname" class="col-lg-4 control-label">Item' Name <span class="require">*</span></label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ selliteminfo.item_name|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="firstname" class="col-lg-4 control-label">Item's Type <span class="require">*</span></label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ selliteminfo.item_type|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="address" class="col-lg-4 control-label">Item's Location<span class="require">*</span></label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ selliteminfo.item_location|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="lastname" class="col-lg-4 control-label">Item' Expected Price <span class="require">*</span></label>
+                          <div class="col-lg-8">
+
+                              <div class="field">
+                                {{ selliteminfo.item_exprice|add_class:"form-control"|attr:"id:jj" }}
+                              </div>
+                          </div>
+                        </div>
+                      </fieldset>
+
+                      <fieldset>
+                        <legend>Other Info</legend>
+                        <div class="form-group">
+                          <label for="lastname" class="col-lg-4 control-label">How Long You Have been using it? <span class="require">*</span></label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ selliteminfo.item_usetime|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="lastname" class="col-lg-4 control-label">Why You are selling this item?</label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ selliteminfo.item_reason|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="lastname" class="col-lg-4 control-label">Latitude</label>
+                          <div id="divSample" class="col-lg-8">
+                              
+                              {{ selliteminfo.item_lat|add_class:"form-control"|attr:"id:Latitude" }}
+                          </div>
+                          
+                        </div>
+                        <div class="form-group">
+                          <label for="lastname" class="col-lg-4 control-label">Longitude</label>
+                          <div id="divSample" class="col-lg-8">
+                              
+                               {{ selliteminfo.item_long|add_class:"form-control"|attr:"id:Longitude" }}
+                          </div>
+                         
+                        </div>
+                        
+                      </fieldset>
+                      <div class="row">
+                        <div class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-20">
+                           <input class="btn btn-primary" type="button" value="Get Location" onclick="getLocationConstant()" /> 
+                          <button type="submit" class="btn btn-primary" value="Sellitem">Sell Item</button>
+                          <button type="button" class="btn btn-default">Cancel</button>
+                        </div>
+                      </div>
+                      </div>
+
+
+                  </form>
+                </div>
+                <div class="col-md-3 col-sm-3 pull-right">
+                  <div class="form-info">
+                    <h2><em>Important</em> Information</h2>
+                    <p>If we find any miss informed item we will return that item and you will be blocked from the server</p>
+
+                    <p>If Your Want to Sell Item Through Auction Then Please Let us  khow.</p>
+
+                    <button type="button" class="btn btn-default">More details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- END CONTENT -->
+        </div>
+        {% endif %}
+
+  {% endblock %}

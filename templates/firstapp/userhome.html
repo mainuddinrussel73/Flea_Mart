@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+{% extends "firstapp/base.html" %}
+{% load static from staticfiles %}
+{% load pagination_tags %}
+
+  {% block title_block %}
+    <title>{{ user }} Home</title>
+  {% endblock %}
+  {% block body_block %}
+
+        <ul class="breadcrumb">
+
+
+              <li class="active"><a href="{% url 'User:home' %}">{{ user }} Home</a></li>
+        </ul>
+        <!-- BEGIN SIDEBAR & CONTENT -->
+        <div class="row margin-bottom-40">
+         <div class="sidebar col-md-3 col-sm-3">
+            <h1>{{ key }}</h1>
+            <div class="content-page">
+
+                <div class="filter-v1">
+                  <style media="screen">
+
+                    .btn:active{
+                        background:olive;
+                    }
+
+
+                    .btn:focus{
+                        background:#f44280;
+                    }
+                  .vertical-menu {
+                      width: 200px; /* Set a width if you like */
+                      }
+
+                      .vertical-menu li {
+                      background-color: #eee; /* Grey background color */
+                      color: black; /* Black text color */
+                      display: block; /* Make the links appear below each other */
+                      padding: 12px; /* Add some padding */
+                      text-decoration: none; /* Remove underline from links */
+                      }
+
+                      .vertical-menu li:hover {
+                      background-color: #1e90ff; /* Dark grey background on mouse-over */
+                      }
+
+                      .vertical-menu li.active {
+                      background-color: #4CAF50; /* Add a green color to the "active/current" link */
+                      color: white;
+                      }
+
+                            /*h6{
+                              color: white;
+                              font-size: 1250%;
+                              font-size:large;
+                            }*/
+                            .row {
+                              margin: 8px -16px;
+                            }
+
+                            /* Add padding BETWEEN each column (if you want) */
+                            .row,
+                            .row > .column {
+                              padding: 8px;
+                            }
+
+                            /* Create three equal columns that floats next to each other */
+                            .column {
+                              float: left;
+                              width: 33.33%;
+                              /*display: block; opacity: 1;*/
+                              display: none; /* Hide columns by default */
+                            }
+
+                            /* Clear floats after rows */
+                            .row:after {
+                              content: "";
+                              display: table;
+                              clear: both;
+                            }
+
+                            /* Content */
+                            .content {
+                              background-color: white;
+                              padding: 10px;
+                            }
+
+                            /* The "show" class is added to the filtered elements */
+                            .show {
+                              display: block;
+                            }
+                  </style>
+                  <script type="text/javascript">
+                     function changeValue(id, newText) {
+                          var el       = document.getElementById(id);
+                          el.value     = newText;
+                      }
+                      var myVar;
+                      function ion() {
+                        var timesRun = 0;
+                        var interval = setInterval(function(){
+                            timesRun += 1;
+                            if(timesRun === 60){
+                                clearInterval(interval);
+                            }
+                            var location = window.location.href;
+                            var n = location.indexOf('?');
+                            location = location.substring(0, n != -1 ? n : location.length);
+                            alert(location);
+
+                            window.location.href = location;
+                        }, 1000);
+
+                      }
+                      // window.onload = function(){
+                      //
+                      //
+                      //
+                      // }
+
+
+
+                  </script>
+
+                  <ul class="vertical-menu mix-filter">
+                    <form role="form" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    <!-- <button class="btn btn-primary" type="submit">Post a Comment</button> -->
+                    <div id="" class="form-group">
+                       <div class="sidebar col-md-12 col-sm-12">
+
+                        <!-- <input placeholder="Bids ......." form="bid_form"  class="form-control" id="comm" rows="8" ></input> -->
+                         <div class="form-group">
+
+                            <button onclick="ion()" style="width: 150px; height: 50px;" class="btn btn-primary" type="submit" name="showall" value="all">Show all</button></br></br>
+                            {% for item in it %}
+                            <button onclick="ion()"  href="{% url 'User:home' %}" style="width: 150px;  height: 50px;" class="btn btn-primary" type="submit" name="{{ item.item_type }}" value="{{ item.item_type }}">{{ item.item_type }}</button></br></br>
+
+                            {% endfor %}
+
+
+
+
+                          </div>
+                        </div>
+                      </div>
+                    <!-- <input id="slug" type="hidden" name="id" value="{{ item.slug }}"> -->
+                  </form>
+                  <form role="form" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                    <!-- <button class="btn btn-primary" type="submit">Post a Comment</button> -->
+                    <div id="" class="form-group">
+                       <div class="sidebar col-md-12 col-sm-12">
+
+                        <!-- <input placeholder="Bids ......." form="bid_form"  class="form-control" id="comm" rows="8" ></input> -->
+                         <div class="form-group">
+                            <h4>Price(0 to 10000 TK/.)</h4>
+                            <input style="width: 200px;" class="bar" type="range" max="100000" id="rangeinput" value="50" onchange="rangevalue.value=value"/>
+                            <span class="highlight"></span>
+                            <output id="rangevalue">0</output><p>TK/.</p>
+                            <button id="gg" style="width: 150px; height: 50px;" onclick="changeValue(this.id,rangevalue.value);"  class="btn btn-success" type="submit" name="range"  >Filter</button>
+                          </div>
+                        </div>
+                      </div>
+                    <!-- <input id="slug" type="hidden" name="id" value="{{ item.slug }}"> -->
+                  </form>
+
+
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+        <div class="col-sm-9 col-sm-9">
+                  <div class="mix-grid thumbnails">
+                  {% for item in items %}
+                    {% if item.uploader != user %}
+                    <div class="col-md-6 col-sm-5 mix mix_all" style="display: block; opacity: 1; ">
+                        <div class="column show {{ item.item_type }} mix-inner">
+                        <img src="{{ item.item_pic.url }}" class="img-responsive" alt="Mountains">
+                        <div class="mix-details">
+                          </br>
+                          </br></br>
+                          </br>
+                         <h3>{{ item.item_name }}</h3>
+                         <a class="mix-link" href="{{ item.get_absolute_url }}"><i class="fa fa-link"></i></a>
+                         <a data-rel="fancybox-button" title="{{ item.item_location }}" href="{{ item.item_pic.url }}" class="mix-preview fancybox-button"><i class="fa fa-search"></i></a>
+                      </div>
+                      </div>
+                    </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+
+        </div>
+
+
+
+
+  <style media="screen">
+  .pagination a {
+  margin: 0 4px; /* 0 is for top and bottom. Feel free to change it */
+}
+  </style>
+
+
+        <div class="col-sm-9 col-sm-9 pagination">
+
+
+              {% if items.has_other_pages %}
+                    <ul class="pagination">
+                      {% if items.has_previous %}
+                        <li><a href="?page={{ items.previous_page_number }}">&laquo;</a></li>
+                      {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                      {% endif %}
+                      {% for i in items.paginator.page_range %}
+                        {% if items.number == i %}
+                          <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                          <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                      {% if items.has_next %}
+                        <li><a href="?page={{ items.next_page_number }}">&raquo;</a></li>
+                      {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                      {% endif %}
+                    </ul>
+              {% endif %}
+        </div>
+
+  {% endblock %}

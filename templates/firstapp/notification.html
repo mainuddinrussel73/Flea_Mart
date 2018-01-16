@@ -1,0 +1,8 @@
+
+{% for obj in counter %}
+    <!-- {% if other == obj.user.username %} -->
+        <a>{{ obj.to }}->{{ obj.description }}</a>
+    <!-- {% endif %} -->
+{% empty %}
+      <a>00</a>
+{% endfor %}

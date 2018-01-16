@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+{% extends "firstapp/base3.html" %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+  {% block title_block %}
+      <title>Flea-mart | Registration</title>
+  {% endblock %}
+  {% block body_block %}
+  <ul class="breadcrumb">
+        <li><a href="{% url 'index' %}">Home</a></li>
+      <li class="active"><a href="">Create new account</a></li>
+  </ul>
+
+      {% if registered %}
+      <div class="sidebar col-md-3 col-sm-3">
+        <ul class="list-group margin-bottom-25 sidebar-menu">
+
+
+
+        </ul>
+      </div>
+        <h1>Thank you for registering!</h1>
+        
+
+      {% else %}
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/1.0/zxcvbn.min.js"></script>
+    <script type="text/javascript" src="{% static "zxcvbn-bootstrap-strength-meter.js"   %}"></script>
+    <script type="text/javascript">
+                        $(document).ready(function()
+                        {
+                          $("#StrengthProgressBar").zxcvbnProgressBar({ passwordInput: "#pj" });
+                        });
+    </script>
+  
+        <div class="row margin-bottom-40">
+          <!-- BEGIN SIDEBAR -->
+          <div class="sidebar col-md-3 col-sm-3">
+            <ul class="list-group margin-bottom-25 sidebar-menu">
+
+            </ul>
+          </div>
+          <style type="text/css">
+                @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+                .featureList, .featureList ul {
+                  margin-top: 0;
+                  padding-left: 2em;
+                  list-style-type: none;
+                }
+                .featureList li:before {
+                  position: absolute;
+                  margin-left: -1.3em;
+                  font-weight: bold;
+                }
+                .featureList li.tick:before {
+                  content: "\2713";
+                  color: darkgreen;
+                }
+                .featureList li.cross:before {
+                  content: "\2717";
+                  color: crimson;
+                }
+          </style>
+          <!-- END SIDEBAR -->
+          <script type="text/javascript">
+              function runScript(e) {
+                    //if (e.keyCode == 13) {
+                        // var tb = document.getElementById("scriptBox");
+                        // eval(tb.value);
+                        
+                        var c = document.getElementById('ji').value
+                        // alert(c);
+                        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                        if ( re.test(c.toLowerCase()) == true) {
+                                 // alert(re.test(c.toLowerCase()));
+                                document.getElementById("hh").className = 'tick';
+                                document.getElementById("koko").disabled = false;
+                          }else{
+                                document.getElementById("hh").className = 'cross';
+                                document.getElementById("koko").disabled = true;
+                                
+                        }
+                        
+                    //}
+                }
+          </script>
+          <!-- BEGIN CONTENT -->
+          <div class="col-md-9 col-sm-9">
+            <h1>Create an account</h1>
+            <div class="content-form-page">
+              <div class="row">
+                <div class="col-md-7 col-sm-7">
+                <style>
+                  #jj {
+                    color: #000033;
+                    font-style: oblique;
+                  }
+                  #ji {
+                    color: #000033;
+                    font-style: oblique;
+                  }
+                    #pj {
+                    color: #000033;
+                    font-style: oblique;
+                  }
+                  </style>
+                  <form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST">
+                      {% csrf_token %}
+
+                      <fieldset>
+                        <legend>Your personal details</legend>
+                        <div class="form-group">
+                          <label for="firstname" class="col-lg-4 control-label">User Name <span class="require">*</span></label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ userform.username|add_class:"form-control"|attr:"id:jj"}}
+                            </div>
+                          </div>
+                        </div>
+                         <span   class="no-break-before">
+
+                        <div class="form-group">
+
+                                                    <label for="lastname" class="col-lg-4 control-label">Email <span class="require">*  <div    class="featureList">
+                               <li id="hh"  class=""></li>
+                               </div></span></label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                             
+                              {{ userform.email|add_class:"form-control"|attr:"id:ji" | attr:"onfocusout : runScript(event)" }}
+                          
+                             
+                                
+                            </div>
+                          </div>
+                        </div>
+                           </span>
+                        <div class="form-group">
+                          <label for="email" class="col-lg-4 control-label">Password <span class="require">*</span></label>
+                          <div class="col-lg-8">
+
+                              <div class="field">
+                                {{ userform.password|add_class:"form-control"|attr:"id:pj" }}
+                              </br>
+                                      <div class="progress">
+                                        <div id="StrengthProgressBar" class="progress-bar"></div>
+                                      </div>
+
+  
+                              </div>
+                          </div>
+                        </div>
+                      </fieldset>
+
+                      <fieldset>
+                        <legend>Other Info</legend>
+                        <div class="form-group">
+                          <label for="address" class="col-lg-4 control-label">Address <span class="require">*</span></label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ profileform.address|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="lastname" class="col-lg-4 control-label">Website (Optional)</label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ profileform.portfolio|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+
+                      </fieldset>
+
+                    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+
+                    <fieldset>
+                      <legend>Profile Picture</legend>
+                      <div class="form-group">
+
+                          <div class="text-center">
+                            <img class="rounded" src="{% static "assets/pages/img/works/default.jpg"%}" id="profile-img-tag" width="200px" />
+
+
+                          </div>
+                          <p><hr></p>
+                          <div class="text-center">
+                          <label class="btn btn-primary btn-file">
+
+                                  <div class="field">
+                                    {{ profileform.profilepic|add_class:"form-control"|attr:"style:display: none"|attr:"id:profile-img" }}
+                                  </div>
+
+
+                          Upload Profile Picture</label>
+                          </div>
+                      </div>
+                    </fieldset>
+
+                    <script type="text/javascript">
+                          function readURL(input) {
+                              if (input.files && input.files[0]) {
+                                  var reader = new FileReader();
+                                  reader.onload = function (e) {
+                                      $('#profile-img-tag').attr('src', e.target.result);
+                                  }
+                                  reader.readAsDataURL(input.files[0]);
+                              }
+                          }
+                          $("#profile-img").change(function(){
+                              readURL(this);
+                          });
+                    </script>
+
+                    <div class="row">
+                      <div class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-20">
+                        <button  id="koko" type="submit" class="btn btn-primary" value="Register"   disabled>Create an account</button>
+                        <button type="button" class="btn btn-default"><a href="{% url 'index'  %}">Cancel</a></button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-md-4 col-sm-4 pull-right">
+                  <div class="form-info">
+                    <h2><em>Important</em> Information</h2>
+                    <p>Please valid user info otherwise you can't aommunicate us well</p>
+
+                    <p>Thanks!!!</p>
+
+                    <button type="button" class="btn btn-default">More details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END CONTENT -->
+        </div>
+
+
+
+
+
+      {% endif %}
+
+    </div>
+
+  </div>
+
+  {% endblock %}

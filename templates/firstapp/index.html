@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+{% extends "firstapp/base2.html" %}
+{% load static from staticfiles %}
+  {% block title_block %}
+      <title>Flea-mart </title>
+  {% endblock %}
+
+  {% block body_block %}
+
+        <!-- BEGIN SERVICE BOX -->
+        <div class="row service-box margin-bottom-40">
+          <div class="col-md-4 col-sm-4">
+            <div class="service-box-heading">
+              <em><i class="fa fa-location-arrow blue"></i></em>
+              <span>দ্রুত কেনা-বেচা করুন </span>
+            </div>
+            <p>এ বছর ও আগামী বছরে স্ক্রাইব পেশায় নতুন ২ হাজার কর্মী নেবে অগমেডিক্স। কাজের ক্ষেত্র বাড়াতে নতুন পরিকল্পনা নিয়ে এগোচ্ছে যুক্তরাষ্ট্রভিত্তিক গুগল গ্লাস স্টার্টআপ ও স্বাস্থ্যসেবা কোম্পানি অগমেডিক্স। স্ক্রাইবদের যুক্তরাষ্ট্রের চিকিৎসকদের সঙ্গে ঢাকায় বসে কাজ করার সুযোগ দেয় প্রতিষ্ঠানটি। অগমেডিক্সের সহ-প্রতিষ্ঠাতা ও বাংলাদেশি বংশোদ্ভূত প্রযুক্তি উদ্যোক্তা ইয়ান শাকিল এ তথ্য জানান।</p>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <div class="service-box-heading">
+              <em><i class="fa fa-check red"></i></em>
+              <span>গুনাগুন ই আসল উদ্দেশ্য </span>
+            </div>
+            <p>রাজধানীর ধানমন্ডিতে বড় একটি ভবনে চলছে অগমেডিক্সের কার্যক্রম। এ ভবনটিকে ইতিমধ্যে বেসরকারি সফটওয়্যার টেকনোলজি পার্ক হিসেবে স্বীকৃতি দিয়েছে সরকার। দেশে অগমেডিক্সের কার্যক্রম আরও বাড়াতে ঢাকার বাইরে কয়েকটি শহরে অবকাঠামো সম্প্রসারণ ও জনবল নিয়োগের কথা ভাবছে অগমেডিক্স কর্তৃপক্ষ।</p>
+          </div>
+          <div class="col-md-4 col-sm-4">
+            <div class="service-box-heading">
+              <em><i class="fa fa-compress green"></i></em>
+              <span>বুদ্ধিমানের মতো কিনুন </span>
+            </div>
+            <p>বাংলাদেশে নতুন স্টার্টআপ তৈরির পরিকল্পনা প্রসঙ্গে ইয়ান শাকিল বলেন, বিশেষ লক্ষ্য নিয়ে এগিয়ে যাচ্ছে অগমেডিক্স। বর্তমানে বাংলাদেশসহ অন্যান্য স্থানে নতুন নতুন ধারণা নিয়ে অনেক স্টার্টআপ তৈরি হচ্ছে। অগমেডিক্সের বর্তমান লক্ষ্য হচ্ছে বিশাল চাকরির ক্ষেত্র তৈরি করা। বিশেষ করে বাংলাদেশে। অগমেডিক্সের সেবা বাড়ানোর পরিকল্পনা নিয়েও এগোচ্ছে। এতে উন্নত ফিচার, চিকৎসককে যুক্ত করার মতো কাজ হবে।</p>
+          </div>
+        </div>
+        <!-- END SERVICE BOX -->
+
+
+        <!-- BEGIN RECENT WORKS -->
+        <div class="row recent-work margin-bottom-40">
+          <div class="col-md-3">
+            <h2><a href="portfolio.html">এইমাত্র  আপ্লোড হওয়া পন্য </a></h2>
+            <p></p>
+          </div>
+          <div class="col-md-9">
+            <div class="owl-carousel owl-carousel3">
+                {% for item in items %}
+                    <div class="recent-work-item">
+                      <em>
+                        <img src="{{ item.item_pic.url }}" alt="Amazing Project" class="img-responsive">
+                        <a href="{% url 'firstapp:login' %}"><i class="fa fa-link"></i></a>
+                        <a href="{{ item.item_pic.url }}" class="fancybox-button" title="{{ item.item_name }}" data-rel="fancybox-button"><i class="fa fa-search"></i></a>
+                      </em>
+                      <a class="recent-work-description" href="javascript:;">
+                        <strong>{{ item.item_name }}</strong>
+                        <b>{{ item.item_location }}</b>
+                      </a>
+                    </div>
+                {% endfor %}
+
+
+            </div>
+          </div>
+        </div>
+        <!-- END RECENT WORKS -->
+
+        <!-- BEGIN TABS AND TESTIMONIALS -->
+        <div class="row mix-block margin-bottom-40">
+          <!-- TABS -->
+          <div class="col-md-7 tab-style-1">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#tab-1" data-toggle="tab">Multipurpose</a></li>
+              <li><a href="#tab-2" data-toggle="tab">Documented</a></li>
+              <li><a href="#tab-3" data-toggle="tab">Responsive</a></li>
+              <li><a href="#tab-4" data-toggle="tab">Clean & Fresh</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane row fade in active" id="tab-1">
+                <div class="col-md-3 col-sm-3">
+                  <a href="assets/temp/photos/img7.jpg" class="fancybox-button" title="Image Title" data-rel="fancybox-button">
+                    <img class="img-responsive" src="assets/pages/img/photos/img7.jpg" alt="">
+                  </a>
+                </div>
+                <div class="col-md-9 col-sm-9">
+                  <p class="margin-bottom-10">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Cosby sweater eu banh mi, qui irure terry richardson ex squid Aliquip placeat salvia cillum iphone.</p>
+                  <p><a class="more" href="javascript:;">Read more <i class="icon-angle-right"></i></a></p>
+                </div>
+              </div>
+              <div class="tab-pane row fade" id="tab-2">
+                <div class="col-md-9 col-sm-9">
+                  <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar helvetica VHS salvia..</p>
+                </div>
+                <div class="col-md-3 col-sm-3">
+                  <a href="assets/temp/photos/img10.jpg" class="fancybox-button" title="Image Title" data-rel="fancybox-button">
+                    <img class="img-responsive" src="assets/pages/img/photos/img10.jpg" alt="">
+                  </a>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="tab-3">
+                <p>Etsy mixtape wayfarers, ethical wes anderson tofu before they sold out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table readymade. Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+              </div>
+              <div class="tab-pane fade" id="tab-4">
+                <p>Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+              </div>
+            </div>
+          </div>
+          <!-- END TABS -->
+
+          <!-- TESTIMONIALS -->
+          <div class="col-md-5 testimonials-v1">
+            <div id="myCarousel" class="carousel slide">
+              <!-- Carousel items -->
+              <div class="carousel-inner">
+                <div class="active item">
+                  <blockquote><p>Life is one big road with lots of signs. So when you riding through the ruts, don't complicate your mind. Flee from hate, mischief and jealousy. Don't bury your thoughts, put your vision to reality. Wake Up and Live!</p></blockquote>
+                  <div class="carousel-info">
+                    <img class="pull-left" src="static/assets/pages/img/people/photo.jpg" alt="">
+                    <div class="pull-left">
+                      <span class="testimonials-name">Mainuddin Russel</span>
+                      <span class="testimonials-post">Team Member</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <blockquote><p>To be a champion, I think you have to see the big picture. It's not about winning and losing; it's about every day hard work and about thriving on a challenge. It's about embracing the pain that you'll experience at the end of a race and not being afraid. I think people think too hard and get afraid of a certain challenge.</p></blockquote>
+                  <div class="carousel-info">
+                    <img class="pull-left" src="static/assets/pages/img/people/img.jpg" alt="">
+                    <div class="pull-left">
+                      <span class="testimonials-name">Provakar Mandal</span>
+                      <span class="testimonials-post">Team Member</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="item">
+                  <blockquote><p>Reprehenderit butcher stache cliche tempor, williamsburg carles vegan helvetica.retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terry richardson ex squid Aliquip placeat salvia cillum iphone.</p></blockquote>
+                  <div class="carousel-info">
+                    <img class="pull-left" src="assets/pages/img/people/img2-small.jpg" alt="">
+                    <div class="pull-left">
+                      <span class="testimonials-name">Jake Witson</span>
+                      <span class="testimonials-post">Commercial Director</span>
+                    </div>
+                  </div>
+                </div> -->
+              </div>
+
+              <!-- Carousel nav -->
+              <a class="left-btn" href="#myCarousel" data-slide="prev"></a>
+              <a class="right-btn" href="#myCarousel" data-slide="next"></a>
+            </div>
+          </div>
+          <!-- END TESTIMONIALS -->
+        </div>
+        <!-- END TABS AND TESTIMONIALS -->
+
+
+
+        <!-- BEGIN CLIENTS -->
+        <div class="row margin-bottom-40 our-clients">
+          <div class="col-md-3">
+            <h2><a href="javascript:;">Our Clients</a></h2>
+            <p>World's Famous people and comppanies are our clients</p>
+          </div>
+          <div class="col-md-9">
+            <div class="owl-carousel owl-carousel6-brands">
+              <div class="client-item">
+                <a href="javascript:;">
+                  <img src="static/assets/pages/img/clients/bakifade.jpg" class="img-responsive" alt="">
+                  <img src="static/assets/pages/img/clients/nnn.jpg" class="color-img img-responsive" alt="">
+                </a>
+              </div>
+              <div class="client-item">
+                <a href="javascript:;">
+                  <img src="static/assets/pages/img/clients/jjj.jpg" class="img-responsive" alt="">
+                  <img src="static/assets/pages/img/clients/bxd.jpg" class="color-img img-responsive" alt="">
+                </a>
+              </div>
+              <div class="client-item">
+                <a href="javascript:;">
+                  <img src="static/assets/pages/img/clients/iii.jpg" class="img-responsive" alt="">
+                  <img src="static/assets/pages/img/clients/ddd.jpg" class="color-img img-responsive" alt="">
+                </a>
+              </div>
+
+
+              <div class="client-item">
+                <a href="javascript:;">
+                  <img src="static/assets/pages/img/clients/kkk.jpg" class="img-responsive" alt="">
+                  <img src="static/assets/pages/img/clients/photo.jpg" class="color-img img-responsive" alt="">
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END CLIENTS -->
+  {% endblock %}

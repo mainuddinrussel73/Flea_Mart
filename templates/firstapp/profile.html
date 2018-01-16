@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+{% extends "firstapp/base4.html" %}
+{% load static from staticfiles %}
+{% load embed_video_tags %}
+
+  {% block title_block %}
+        <title>{{ user }} Home | Profile</title>
+  {% endblock %}
+  {% block body_block %}
+
+        <ul class="breadcrumb">
+
+            <li><a href="{% url 'User:home' %}">{{ user }} Home</a></li>
+            <li class="active"><a href="">{{ user }} Profile</a></li>
+        </ul>
+
+
+
+<style media="screen">
+                  .card {
+                    padding-top: 20px;
+                    margin: 10px 0 20px 0;
+                    background-color: rgba(214, 224, 226, 0.2);
+                    border-top-width: 0;
+                    border-bottom-width: 2px;
+                    -webkit-border-radius: 3px;
+                    -moz-border-radius: 3px;
+                    border-radius: 3px;
+                    -webkit-box-shadow: none;
+                    -moz-box-shadow: none;
+                    box-shadow: none;
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                  }
+
+                  .card .card-heading {
+                    padding: 0 20px;
+                    margin: 0;
+                  }
+
+                  .card .card-heading.simple {
+                    font-size: 20px;
+                    font-weight: 300;
+                    color: #777;
+                    border-bottom: 1px solid #e5e5e5;
+                  }
+
+                  .card .card-heading.image img {
+                    display: inline-block;
+                    width: 46px;
+                    height: 46px;
+                    margin-right: 15px;
+                    vertical-align: top;
+                    border: 0;
+                    -webkit-border-radius: 50%;
+                    -moz-border-radius: 50%;
+                    border-radius: 50% !important;
+                  }
+
+                  .card .card-heading.image .card-heading-header {
+                    display: inline-block;
+                    vertical-align: top;
+                  }
+
+                  .card .card-heading.image .card-heading-header h3 {
+                    margin: 0;
+                    font-size: 14px;
+                    line-height: 16px;
+                    color: #262626;
+                  }
+
+                  .card .card-heading.image .card-heading-header span {
+                    font-size: 12px;
+                    color: #999999;
+                  }
+
+                  .card .card-body {
+                    padding: 0 20px;
+                    margin-top: 20px;
+                  }
+
+                  .card .card-media {
+                    padding: 0 20px;
+                    margin: 0 -14px;
+                  }
+
+                  .card .card-media img {
+                    max-width: 100%;
+                    max-height: 100%;
+                  }
+
+                  .card .card-actions {
+                    min-height: 30px;
+                    padding: 0 20px 20px 20px;
+                    margin: 20px 0 0 0;
+                  }
+
+                  .card .card-comments {
+                    padding: 20px;
+                    margin: 0;
+                    background-color: #f8f8f8;
+                  }
+
+                  .card .card-comments .comments-collapse-toggle {
+                    padding: 0;
+                    margin: 0 20px 12px 20px;
+                  }
+
+                  .card .card-comments .comments-collapse-toggle a,
+                  .card .card-comments .comments-collapse-toggle span {
+                    padding-right: 5px;
+                    overflow: hidden;
+                    font-size: 12px;
+                    color: #999;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                  }
+
+                  .card-comments .media-heading {
+                    font-size: 13px;
+                    font-weight: bold;
+                  }
+
+                  .card.people {
+                    position: relative;
+                    display: inline-block;
+                    width: 170px;
+                    height: 300px;
+                    padding-top: 0;
+                    margin-left: 20px;
+                    overflow: hidden;
+                    vertical-align: top;
+                  }
+
+                  .card.people:first-child {
+                    margin-left: 0;
+                  }
+
+                  .card.people .card-top {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    display: inline-block;
+                    width: 170px;
+                    height: 150px;
+                    background-color: #ffffff;
+                  }
+
+                  .card.people .card-top.green {
+                    background-color: #53a93f;
+                  }
+
+                  .card.people .card-top.blue {
+                    background-color: #427fed;
+                  }
+
+                  .card.people .card-info {
+                    position: absolute;
+                    top: 150px;
+                    display: inline-block;
+                    width: 100%;
+                    height: 101px;
+                    overflow: hidden;
+                    background: #ffffff;
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                  }
+
+                  .card.people .card-info .title {
+                    display: block;
+                    margin: 8px 14px 0 14px;
+                    overflow: hidden;
+                    font-size: 16px;
+                    font-weight: bold;
+                    line-height: 18px;
+                    color: #404040;
+                  }
+
+                  .card.people .card-info .desc {
+                    display: block;
+                    margin: 8px 14px 0 14px;
+                    overflow: hidden;
+                    font-size: 12px;
+                    line-height: 16px;
+                    color: #737373;
+                    text-overflow: ellipsis;
+                  }
+
+                  .card.people .card-bottom {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    display: inline-block;
+                    width: 100%;
+                    padding: 10px 20px;
+                    line-height: 29px;
+                    text-align: center;
+                    -webkit-box-sizing: border-box;
+                    -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+                  }
+
+                  .card.hovercard {
+                    position: relative;
+                    padding-top: 0;
+                    overflow: hidden;
+                    text-align: center;
+                    background-color: rgba(214, 224, 226, 0.2);
+                  }
+
+                  .card.hovercard .cardheader {
+                    /*background: url("http://lorempixel.com/850/280/nature/4/");*/
+                    background-size: cover;
+                    height: 135px;
+                  }
+
+                  .card.hovercard .avatar {
+                    position: relative;
+                    top: -50px;
+                    margin-bottom: -50px;
+                  }
+
+                  .card.hovercard .avatar img {
+                    width: 100px;
+                    height: 100px;
+                    max-width: 100px;
+                    max-height: 100px;
+                    -webkit-border-radius: 50%;
+                    -moz-border-radius: 50%;
+                    border-radius: 50% !important;
+                    border: 5px solid rgba(255,255,255,0.5);
+                  }
+
+                  .card.hovercard .info {
+                    padding: 4px 8px 10px;
+                  }
+
+                  .card.hovercard .info .title {
+                    margin-bottom: 4px;
+                    font-size: 24px;
+                    line-height: 1;
+                    color: #262626;
+                    vertical-align: middle;
+                  }
+
+                  .card.hovercard .info .desc {
+                    overflow: hidden;
+                    font-size: 12px;
+                    line-height: 20px;
+                    color: #737373;
+                    text-overflow: ellipsis;
+                  }
+
+                  .card.hovercard .bottom {
+                    padding: 0 20px;
+                    margin-bottom: 17px;
+                  }
+
+                  .btn{ border-radius: 50%; width:32px; height:32px; line-height:18px;  }
+
+</style>
+
+        <div class="row margin-bottom-40">
+  <!-- BEGIN SIDEBAR -->
+  <div class="sidebar col-md-3 col-sm-3">
+    <ul class="list-group margin-bottom-25 sidebar-menu">
+        <h1>Profile</h1>
+        <div class="card hovercard">
+               <div class="cardheader">
+                 {% if user.userprofileinfo.profilepic %}
+                   <img src="{{ user.userprofileinfo.profilepic.url }}" width="240">
+                 {% endif %}
+               </div>
+               <div class="avatar">
+                 {% if user.userprofileinfo.profilepic %}
+                   <img src="{{ user.userprofileinfo.profilepic.url }}" width="240">
+                 {% endif %}
+                   <!-- <img alt="" src="http://lorempixel.com/100/100/people/9/"> -->
+               </div>
+               <div class="info">
+                   <div class="title">
+                       <a  href="">@{{ user }}</a>
+                   </div>
+                   <div class="desc">{{ user.email }}</div></br>
+                   <div class="desc">{{ user.userprofileinfo.address }}</div></br>
+                   <div class="desc">{{ user.userprofileinfo.portfolio }}</div></br></br>
+               </div>
+
+           </div>
+
+
+    </ul>
+
+  </div>
+  <!-- END SIDEBAR -->
+
+  <!-- BEGIN CONTENT -->
+  <style media="screen">
+
+  /*@import "http://fonts.googleapis.com/css?family=Raleway";*/
+/*----------------------------------------------
+CSS settings for HTML div Exact Center
+------------------------------------------------*/
+#abc {
+width:100%;
+height:100%;
+opacity:.95;
+top:0;
+left:0;
+display:none;
+position:fixed;
+background-color:#313131;
+overflow:auto
+}
+#c {
+width:100%;
+height:100%;
+opacity:.95;
+top:0;
+left:0;
+display:none;
+position:fixed;
+background-color:#313131;
+overflow:auto
+}
+img#close {
+position:absolute;
+right:-14px;
+top:-14px;
+cursor:pointer
+}
+div#popupContact {
+position:absolute;
+left:50%;
+top:47%;
+margin-left:-202px;
+font-family:'Raleway',sans-serif
+}
+#check_form{
+
+max-width:300px;
+min-width:250px;
+padding:10px 50px;
+border:2px solid gray;
+border-radius:10px;
+font-family:raleway;
+background-color:#fff
+}
+
+#final_form{
+
+max-width:300px;
+min-width:250px;
+padding:10px 50px;
+border:2px solid gray;
+border-radius:10px;
+font-family:raleway;
+background-color:#fff
+}
+
+
+/*#submit {
+text-decoration:none;
+width:100%;
+text-align:center;
+display:block;
+background-color:#FFBC00;
+color:#fff;
+border:1px solid #FFCB00;
+padding:10px 0;
+font-size:20px;
+cursor:pointer;
+border-radius:5px
+}*/
+
+            .switch {
+          position: relative;
+          display: inline-block;
+          width: 60px;
+          height: 34px;
+          }
+
+          .switch input {display:none;}
+
+          .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          -webkit-transition: .4s;
+          transition: .4s;
+          }
+
+          .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 26px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          -webkit-transition: .4s;
+          transition: .4s;
+          }
+
+          input:checked + .slider {
+          background-color: #2196F3;
+          }
+
+          input:focus + .slider {
+          box-shadow: 0 0 1px #2196F3;
+          }
+
+          input:checked + .slider:before {
+          -webkit-transform: translateX(26px);
+          -ms-transform: translateX(26px);
+          transform: translateX(26px);
+          }
+
+          /* Rounded sliders */
+          .slider.round {
+          border-radius: 34px !important;
+          }
+
+          .slider.round:before {
+          border-radius: 50% !important;
+          }
+  </style>
+  <script type="text/javascript">
+  function check_empty() {
+if (document.getElementById('name').value == "" || document.getElementById('email').value == "" || document.getElementById('msg').value == "") {
+alert("Fill All Fields !");
+} else {
+document.getElementById('form').submit();
+alert("Form Submitted Successfully...");
+}
+}
+//Function To Display Popup
+function div_show(c) {
+document.getElementById('abc').style.display = "block";
+document.getElementById('slug').value = c;
+if($("#senderr").prop('checked') == true){
+  $('#senderr').attr('checked', false);
+}
+}
+function div_sho(c) {
+document.getElementById('c').style.display = "block";
+document.getElementById('s').value = c;
+
+
+}
+//Function to Hide Popup
+function div_hide(){
+document.getElementById('abc').style.display = "none";
+}
+function div_hid(){
+document.getElementById('c').style.display = "none";
+}
+  $(document).ready(function() {
+      $('#senderr').click(function() {
+        
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = (today.getHours()) + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date+' '+time;
+        console.log('Posting the following: ');
+      // alert("asdfa");ś
+      $.ajax({
+        url: "{% url 'User:check' %}",
+        data: {
+          status : $('#senderr').val(),
+          time   :  dateTime,
+          slug   : $('#slug').val(),
+          csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+        },
+        type: 'post',
+        success: function(obj) {
+
+            // alert(obj);
+            row = $('#' + obj).hide();
+
+            // Checks it
+
+        }
+      });
+    });
+    $('#snd').click(function() {
+
+      alert("asdfa");
+
+    $.ajax({
+      url: "{% url 'User:deleteitem' %}",
+      data: {
+        name : $('#name').val(),
+        price : $('#price').val(),
+        slug   : $('#s').val(),
+        csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+      },
+      type: 'post',
+      success: function(obj) {
+
+          // alert(obj);
+          row = $('#' + obj).hide();
+
+          // Checks it
+
+      }
+    });
+  });
+  });
+  </script>
+  <div class="col-md-6 col-sm-6">
+      <h2>Recent Uploaded Products</h2>
+      <div class="content-page">
+          <div class="filter-v1">
+            {% for item in items %}
+            <div class="row mix-grid thumbnails">
+                <div class="col-md-6 col-sm-8 mix category_1 mix_all" style="display: block; opacity: 1; ">
+                  <div class="mix-inner">
+                    <img alt="" src="{{ item.item_pic.url }}" class="img-responsive">
+<!-- href="{{ item.get_delete_url }}" -->
+                    <div class="mix-details">
+                       <h4>{{ item.item_name }}</h4>
+                       <a onclick="div_sho('{{ item.slug }}')" class="mix-link"><i class="class="fa fa-link"">Sold?</i></a>
+                       <!-- <a class="mix-link" href="{{ item.get_absolute_url }}"><i class="class="fa fa-link"">Sold?</i></a> -->
+                       <a title="{{ item.item_location }}" href="{{ item.get_absolute_url }}" class="mix-preview fancybox-button">Chat</a>
+                    </div>
+                  </div>
+                </div>
+                <h6>For Auction You Can select an item</h6>
+
+                <button class="button button-signup"id="{{ item.slug }}" onclick="div_show('{{ item.slug }}')">Bid This Item</button>
+
+                </form>
+            </div>
+
+            {% endfor %}
+          </div>
+          <div id="abc">
+
+            <div id="popupContact">
+
+            <form action="" id="check_form" method="post" name="form">
+              {% csrf_token %}
+              <label for="">Toggle for auction this item</label><hr>
+              <img id="close" src="{% static "assets/pages/img/works/close.png" %}" onclick ="div_hide()">
+              <input id="slug" type="hidden" name="slug" value="">
+            <label class="switch" id="x">  <input name="foo" type="checkbox" type="submit" id="senderr"><span class="slider round"></span></label>
+
+            </form>
+            </div>
+            <!-- Popup Div Ends Here -->
+            </div>
+            <div id="c">
+
+              <div id="popupContact">
+
+              <form action="" id="final_form" method="post" name="form">
+                {% csrf_token %}
+                <label for="">Please fill the form before anythig..</label><hr>
+                <img id="close" src="{% static "assets/pages/img/works/close.png" %}" onclick ="div_hid()">
+                <input id="s" type="hidden" name="slug" value="">
+                <strong>Customer's name</strong></br></br>
+                <input id="name" type="text" name="" value="" placeholder="Customer's name"style="height:30px"></br></br>
+                <strong>Price</strong></br></br>
+                <input id="price" type="text" name="" value="" placeholder="Price" style="height:30px;margin-bottom:15px">
+                <button class="button button-signup" type="submit" id="snd" name="button">Submit</button>
+              </form>
+              </div>
+              <!-- Popup Div Ends Here -->
+              </div>
+      </div>
+  </div>
+
+  <div class="col-md-3 col-sm-3 pull-right">
+
+
+          <iframe width="320" height="240" src="https://www.youtube.com/embed/4CEr1LohQBU" frameborder="0" gesture="media" allowfullscreen></iframe>
+          <h2><em>Important</em> Information</h2>
+          <p>If you find any kind of system fault please inform us at <kbd>fleamart@gmail.com</kbd>.</p>
+
+          <!-- <button type="button" class="btn btn-primary">More details</button> -->
+        </div>
+      </div>
+  </div>
+  <!-- END CONTENT -->
+
+{% endblock %}

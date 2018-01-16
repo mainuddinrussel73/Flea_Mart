@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+{% extends "firstapp/base4.html" %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% block title_block %}
+  <title>{{ user }} Home | Update Account</title>
+{% endblock %}
+  {% block body_block %}
+ <ul class="breadcrumb">
+        <li><a href="{% url 'User:home' %}">Home</a></li>
+      <li class="active"><a href="">Uadate Account</a></li>
+  </ul>
+
+
+
+  		<div class="row margin-bottom-40">
+          <!-- BEGIN SIDEBAR -->
+          <div class="sidebar col-md-3 col-sm-3">
+            <ul class="list-group margin-bottom-25 sidebar-menu">
+
+
+            </ul>
+          </div>
+ <!-- BEGIN CONTENT -->
+          <div class="col-md-9 col-sm-9">
+            <h1>Update account</h1>
+            <div class="content-form-page">
+              <div class="row">
+                <div class="col-md-7 col-sm-7">
+                <style>
+                  #jj {
+                    color: #000033;
+                    font-style: oblique;
+                  }
+                  </style>
+                  <form class="form-horizontal" role="form" enctype="multipart/form-data" method="POST">
+                      {% csrf_token %}
+
+                      <fieldset>
+                        <legend>Your personal details</legend>
+                        <div class="form-group">
+                          <label for="firstname" class="col-lg-4 control-label">User Name</label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ userform.username|add_class:"form-control"|attr:"id:jj"}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="lastname" class="col-lg-4 control-label">Email </label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ userform.email|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="email" class="col-lg-4 control-label">Password </label>
+                          <div class="col-lg-8">
+
+                              <div class="field">
+                                {{ userform.password|add_class:"form-control"|attr:"id:jj" }}
+                              </div>
+                          </div>
+                        </div>
+                      </fieldset>
+
+                      <fieldset>
+                        <legend>Other Info</legend>
+                        <div class="form-group">
+                          <label for="address" class="col-lg-4 control-label">Address </label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ profileform.address|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="lastname" class="col-lg-4 control-label">Website (Optional)</label>
+                          <div class="col-lg-8">
+
+                            <div class="field">
+                              {{ profileform.portfolio|add_class:"form-control"|attr:"id:jj" }}
+                            </div>
+                          </div>
+                        </div>
+
+                      </fieldset>
+
+                    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+
+
+
+                    <fieldset>
+                      <legend>Profile Picture</legend>
+                      <div class="form-group">
+
+                          <div class="text-center">
+                            <img class="rounded" src="{{ user.userprofileinfo.profilepic.url  }}" id="profile-img-tag" width="200px" />
+
+
+                          </div>
+                          <p><hr></p>
+                          <div class="text-center">
+                          <label class="btn btn-primary btn-file">
+
+                                  <div class="field">
+                                    {{ profileform.profilepic|add_class:"form-control"|attr:"style:display: none"|attr:"id:profile-img" }}
+                                  </div>
+
+
+                          Upload Profile Picture</label>
+                          </div>
+                      </div>
+                    </fieldset>
+
+                    <script type="text/javascript">
+                          function readURL(input) {
+                              if (input.files && input.files[0]) {
+                                  var reader = new FileReader();
+                                  reader.onload = function (e) {
+                                      $('#profile-img-tag').attr('src', e.target.result);
+                                  }
+                                  reader.readAsDataURL(input.files[0]);
+                              }
+                          }
+                          $("#profile-img").change(function(){
+                              readURL(this);
+                          });
+                    </script>
+
+                    <div class="row">
+                      <div class="col-lg-8 col-md-offset-4 padding-left-0 padding-top-20">
+                        <button type="submit" class="btn btn-primary" value="Register">Update account</button>
+                        <button type="button" class="btn btn-default"><a href="{% url 'User:home'  %}">Cancel</a></button>
+                        
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="col-md-4 col-sm-4 pull-right">
+                  <div class="form-info">
+                    <h2><em>Important</em> Information</h2>
+                    <p>Please valid user info otherwise you can't aommunicate us well</p>
+
+                    <p>Thanks!!!</p>
+
+                    <button type="button" class="btn btn-default">More details</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+ {% endblock %}

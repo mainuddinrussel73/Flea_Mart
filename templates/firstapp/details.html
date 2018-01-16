@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+{% extends "firstapp/base4.html" %}
+{% load static from staticfiles %}
+{% load widget_tweaks %}
+{% block title_block %}
+  <title>{{ user }} Home | Details</title>
+{% endblock %}
+  {% block body_block %}
+
+  <ul class="breadcrumb">
+
+      <li><a href="{% url 'User:home' %}">{{ user }} Home</a></li>
+      <li class="active"><a href="">Item Details</a></li>
+  </ul>
+  <style>
+        .desk{
+
+          border-radius: 20px !important;
+        }
+        .w3-tangerine {
+          font-family: 'Tangerine', serif;
+          font-size: 4.5em;
+          color: #FF004D;
+        }
+
+
+        .animate
+        {
+        	transition: all 0.1s;
+        	-webkit-transition: all 0.1s;
+        }
+
+        .action-button
+        {
+        	position: relative;
+        	padding: 5px 20px;
+          margin: 0px 5px 5px 0px;
+          float: left;
+        	border-radius: 50%;
+        	font-family: 'Pacifico', cursive;
+        	font-size: 18px;
+        	color: #FFF;
+        	text-decoration: none;
+        }
+
+        .blue
+        {
+        	background-color: #3498DB;
+        	border-bottom: 5px solid #2980B9;
+        	text-shadow: 0px -2px #2980B9;
+        }
+        .red
+        {
+        	background-color: #E74C3C;
+        	border-bottom: 5px solid #BD3E31;
+        	text-shadow: 0px -2px #BD3E31;
+        }
+
+        .action-button:active
+        {
+        	transform: translate(0px,5px);
+          -webkit-transform: translate(0px,5px);
+        	border-bottom: 1px solid;
+        }
+        input[type=checkbox] {
+        	clear: both;
+        	display: none;
+        }
+
+        input[type="checkbox"] {
+          display: none;
+        }
+
+        input[type="checkbox"] + label {
+        	position: absolute;
+        	z-index: 100;
+        	overflow: hidden;
+        	height: 6em;
+        	width: 6em;
+        	left: calc(9% - 3em);
+        	top: calc(79% - 4em);
+
+        	text-align: center;
+        	line-height: 90px;
+        	cursor: pointer;
+        	-webkit-transition: all 300ms ease;
+        	transition: all 300ms ease;
+        	border-radius: 50%;
+        	background-color: rgba(255, 0, 0, 0);
+        }
+
+        input[type="checkbox"] + label:before {
+        	content: '';
+        	z-index: -1;
+        	position: absolute;
+        	background: rgb(220, 72, 127);
+        	width: 100%;
+        	height: 100%;
+        	border-radius: 50%;
+        	top: 0;
+        	left: 0;
+        	transform: scale(0);
+        	-webkit-ransform: scale(10);
+        }
+
+        input[type="checkbox"] + label:after {
+        	content: '';
+        	z-index: -1;
+        	position: absolute;
+        	background: white;
+        	width: 100%;
+        	height: 100%;
+        	border-radius: 50%;
+        	top: 0;
+        	left: 0;
+        	transform: scale(0);
+        	-webkit-transform: scale(0);
+        }
+
+        input[type="checkbox"]:checked + label svg {
+        	-webkit-transition: all 300ms ease-in-out;
+        	transition: all 300ms ease-in-out;
+        	fill: rgb(220, 72, 127);
+        	transform: scale(1.3);
+        	-webkit-transform: scale(1.3);
+        }
+
+        input[type="checkbox"]:checked + label:after {
+        	-webkit-animation: like-a 0.3s 0.2s forwards;
+        	-moz-animation: like-a 0.3s 0.2s forwards;
+        	animation: like-a 0.3s 0.2s forwards;
+        }
+
+        input[type="checkbox"]:checked + label:before {
+        	-webkit-animation: like-a 0.5s 0s forwards;
+        	-moz-animation: like-a 0.5s 0s forwards;
+        	animation: like-a 0.5s 0s forwards;
+        }
+
+        label svg {
+        	display: inline-flex;
+        	vertical-align: middle;
+        	width: 35px;
+        	fill: rgb(167, 167, 167);
+        }
+
+
+        @-webkit-keyframes like-a {
+        100% {
+        	-webkit-transform:scale(1.03);
+        	transform:scale(1.03);
+        	-moz-transform:scale(1.03);
+        } }
+        @-moz-keyframes like-a {
+        100% {
+        	-webkit-transform:scale(1.03);
+        	transform:scale(1.03);
+        	-moz-transform:scale(1.03);
+        } }
+        @keyframes like-a {
+        100% {
+        	-webkit-transform:scale(1.03);
+        	transform:scale(1.03);
+        	-moz-transform:scale(1.03);
+        } }
+
+</style>
+<script type="text/javascript">
+window.onload = function() {
+    document.getElementById('seconds').style.display = 'none';
+};
+$(document).on('submit','#comm_form',function(e){
+    e.preventDefault();
+
+    $.ajax({
+      type : 'POST',
+      url  : "{% url 'User:comment' %}",
+      data :  {
+          co : $('#comm').val(),
+          slug : $('#slug').val(),
+          csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+      },
+
+      success:function(data){
+          // alert("user");
+          $('#comm').val('');
+          if(data.comm!=""){
+          // $('#media-some').append("<h4 id='commentss' class='media-heading'>"+ data.user +"<span>"+ data.timestemp  +"/ <a href='javascript:;'>Reply</a></span></h4><p id='sss'>"+data.comm+"</p>")
+            $('#commester').append("<li class='media'><a href='javascript:;' class='pull-left'><img src="+ data.profilepic +" alt='' class='media-object'></a><div id='media-some' class='media-body'><h4 id='commentss' class='media-heading'>"+ data.user +"<span>"+ data.timestemp +" / <a href='javascript:;'>Reply</a></span></h4><p id='sss'>"+ data.comm +"</p></div></li>")
+          }
+
+
+
+
+      }
+    })
+});
+
+        // success : function(json){
+        //     console.log("crea is working!")
+        //     $('#comm').val('');
+        //     $('#sss').append('<p>' + json.comm + '</p>');
+        //     var chatlist = document.getElementById('media-some');
+        //     chatlist.scrollTop = chatlist.scrollHeight;
+        // }
+
+
+</script>
+<script type="text/javascript">
+
+
+
+      function myFunc() {
+
+                    document.getElementById('kont').style.display = 'block';
+
+      }
+      $(document).ready(function(){
+
+            // setTimeout(function() {
+            //   $('#kont').fadeOut('fast');
+            // }, 0);
+
+            $(".like-btn").click(function(e){
+               e.preventDefault()
+               var this_ = $(this)
+               var likeUrl = this_.attr("data-href")
+               var likeCount = parseInt(this_.attr("data-likes")) | 0
+               if(likeUrl ){
+                 $.ajax({
+                   url : likeUrl,
+                   method : "GET",
+                   data : {},
+                   success: function(data){
+                     var newLikes;
+                     var ne;
+                     if(data.liked){
+                        newLikes = data.ne;
+
+                        updateText(this_,ne,newLikes,"Unlike");
+
+                     }
+                     else {
+                        newLikes = data.ne;
+
+                        updateText(this_,ne,newLikes,"Like");
+                     }
+                     console.log(data)
+                   },error: function(error){
+                     console.log(error)
+                     console.log("error");
+                   }
+                 })
+               }
+
+            })
+    //  $('#kont').empty().show().html(message).delay(3000).fadeOut(300);
+
+    $('#chat-form').on('submit', function(event){
+        event.preventDefault();
+
+        $.ajax({
+            url  : "{% url 'User:post'  %}",
+            type : 'POST',
+            data : { msgbox : $('#chat-msg').val() , hide : $('#hide').val() ,itemname : $('#itemname').val(),iteuploader : $('#iteuploader').val() ,docc : $('#docc').val(),my : $('#my').val()},
+
+            success : function(json){
+                $('#chat-msg').val('');
+                $('#msg-list').append('<li class="a">' + json.msg + '</li>');
+                var chatlist = document.getElementById('msg-list-div');
+                chatlist.scrollTop = chatlist.scrollHeight;
+            }
+        });
+    });
+
+
+    function getLikes(){
+
+
+      $.get("{%  url 'User:likesupdate' instance %}", {}, function(result_list) {
+        jsonDat = JSON.parse(result_list);
+
+        var nos = $('.nos');
+        var c = jsonDat[0];
+        nos.text(c.likecount);
+
+        // for (var i = 0; i < jsonData.length; i++) {
+        //     c = jsonData[i];
+        // }
+
+
+
+
+      });
+
+    }
+    window.onload = function() {
+        var myVar = setInterval(getLikes, 1000);
+        var fff = setInterval(setColor, 10);
+    };
+    function updateText(btn,ne,newCount,verd){
+      var nos = $('.nos');
+
+      // btn.attr("data-likes", newCount)
+      nos.text(newCount);
+      btn.text(verd);
+    }
+
+    function getMessages(){
+        if (!scrolling) {
+            $.get("{% url 'User:messages'    instance.slug  %}",{it : $('#my').val()}, function(messages){
+                $('#msg-list').html(messages);
+                var chatlist = document.getElementById('msg-list-div');
+                chatlist.scrollTop = chatlist.scrollHeight;
+            });
+              // $.ajax({
+              //             url: "% url 'User:messages'   %}",
+              //             type: "GET", //send it through get method
+              //             data: { 
+              //                       it : $('#my').val()
+              //             },
+              //             success: function(messages) {
+              //               //Do Something
+              //                      $('#msg-list').html(messages);
+              //                     var chatlist = document.getElementById('msg-list-div');
+              //                     chatlist.scrollTop = chatlist.scrollHeight;
+              //             }
+              //     });
+        }
+        scrolling = false;
+    }
+  
+    var scrolling = false;
+    $(function(){
+        $('#msg-list-div').on('scroll', function(){
+            scrolling = true;
+        });
+        refreshTimer = setInterval(getMessages, 500);
+    });
+
+    $(document).ready(function() {
+         $('#send').attr('disabled','disabled');
+         $('#chat-msg').keyup(function() {
+            if($(this).val() != '') {
+               $('#send').removeAttr('disabled');
+            }
+            else {
+            $('#send').attr('disabled','disabled');
+            }
+         });
+     });
+
+    // using jQuery
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+
+
+
+
+      $('#kont .textarea').keypress(function(e){
+          if(e.which == 13 && !e.shiftKey){
+            var name = jQuery.trim($('#kont .textarea').val());
+
+            if(name.length != 0){
+
+                $('#kont # #msg-list').append('<li class="a">'+$('#kont .textarea').val()+'</li>');
+                $("#kont #msg-list-div").animate({ scrollTop: 10000 }, "slow");
+                $('#kont .textarea').val('').empty();
+
+
+            }
+            else{
+
+
+
+            }}
+      });
+
+      $('#kont #name').css({
+      'position' : 'absolute',
+      'left' : '130px',
+      'line-height' : '50px',
+      'font-family' : 'verdana',
+      'font-weight' : 'bold',
+      'color' : 'white'
+      });
+
+      $("#kont #msg-list-div").animate({ scrollTop: 10000 }, "slow");
+
+      $('#kont .send').css('cursor','pointer');
+
+
+       });
+       var count = 1;
+      function setColor() {
+          var property = document.getElementById('like');
+          if (property.innerText=="Unlike") {
+              property.style.backgroundColor = "#E74C3C"
+
+              property.style.addClass = "action-button animate blue";
+
+          }
+          else {
+
+              property.style.backgroundColor = "#3498DB"
+              property.style.addClass = "action-button animate red";
+
+          }
+      }
+      //  $(document).ready(function(){
+      //     $("#like").click(function(){
+      //         if ( $('#like').hasClass("action-button animate blue") ){
+      //             $("#like").toggleClass("action-button animate red");
+      //         }
+      //         else if( $('#like').hasClass("action-button animate red") ){
+      //             $("#like").addClass("action-button animate blue");
+      //         }
+      //
+      //     });
+      // });
+
+
+</script>
+
+
+<style media="screen">
+          .cont {
+          border: 2px solid #dedede;
+          background-color: #ADD8E6;
+
+          padding: 10px;
+          margin: 10px 0;
+
+          border-radius: 20px !important;
+
+          }
+
+          .darker {
+            right: 25px;
+            text-decoration-color: #ADD8E6;
+          border-color: #ccc;
+          background-color: #ddd;
+          }
+
+          .cont::after {
+          content: "";
+          clear: both;
+          display: table;
+          }
+
+          .cont img {
+          float: left;
+          max-width: 60px;
+          width: 50%;
+          height: 50px;
+          width: 40px;
+          margin-right: 20px;
+          border-radius: 50% !important;
+          }
+
+          .cont img.right {
+          float: right;
+          margin-left: 20px;
+          margin-right:0;
+          }
+
+          .time-right {
+          float: right;
+          color: #aaa;
+          }
+
+          .time-left {
+          float: left;
+          color: #999;
+          }
+          @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic);
+          blockquote{
+          font-size: 1em;
+          width:60%;
+          margin:50px auto;
+          font-family:Open Sans;
+          font-style:italic;
+          color: #555555;
+          padding:1.2em 30px 1.2em 75px;
+          border-left:8px solid #78C0A8 ;
+          line-height:1.6;
+          position: relative;
+          background:#EDEDED;
+          }
+
+          blockquote::before{
+          font-family:Arial;
+          content: "\201C";
+          color:#78C0A8;
+          font-size:1em;
+          position: absolute;
+          left: 10px;
+          top:-10px;
+          }
+
+          blockquote::after{
+          content: '';
+          }
+
+          blockquote span{
+          display:block;
+          color:#333333;
+          font-style: normal;
+          font-weight: bold;
+          margin-top:1em;
+          }
+
+
+
+        #kont .bar {
+        position:relative;
+        width:350px;
+        height :52px;
+        background : blue;
+        opacity :0.4;
+        border-radius : 5px 5px 0 0;
+        z-index : -1;
+        }
+
+        #kont .footer {
+            margin-top: 450px;
+            background :#b2beb2;
+            width:350px;
+            height :40px;
+        /*position:absolute;
+        z-index : -1;
+        width:300px;
+        height :50px;
+
+        opacity :0.4;
+        border-radius : 0px 0px 5px 5px;
+        bottom:0px;*/
+        }
+
+        #kont  .img{
+          position:absolute;
+          width : 46px;
+          height : 46px;
+          border-radius :50%;
+          right : 4px;
+          top:2px;
+
+          background-size:contain;
+        }
+
+        #kont{
+        display:none;
+        position:relative;
+        margin-left:0px;
+        top:5px;
+        width : 350px;
+        height:550px;
+
+        border-radius : 5px;
+        }
+        #kont #msg-list-div{
+        position:absolute;
+        width:350px;
+        height:448px;
+        background:rgba(255,255,255,0.2);
+        opacity : 0.9;
+        }
+        #kont #msg-list-div li{
+        position:relative;
+
+        }
+        #kont .a{
+        list-style-type:none;
+        position:absolute;
+        word-wrap: break-word;
+        right : 10px;
+        box-shadow : 0 1px 1px grey;
+        border-radius :20px 0 20px 20px;
+        padding : 10px;
+        max-width : 200px ;
+        margin-left:100px;
+        background :#5F9EA0;
+        color:white;
+        font-family:sans-serif;
+        margin-top:5px;
+        }
+
+        #kont .b{
+        margin-right:110px;
+        margin-top:5px;
+        list-style-type:none;
+
+        word-wrap: break-word;
+        max-width : 200px;
+        left:-30px;
+        border-radius :0 20px 20px 20px;
+        padding : 10px;
+        background :	#636A90 ;
+        color:white;
+        font-family:sans-serif;
+        box-shadow : 0 2px 5px grey;
+        }
+
+
+
+
+
+        #kont .text{
+        position:absolute;
+        margin-left: 15px;
+        bottom:5px;
+        border-radius: 0 20px 20px 20px;
+        left:5px;
+        width:320px;
+        height:40px;
+        resize:none;
+        }
+
+        #kont .send img{
+        position:absolute;
+        bottom:3px;
+        right:3px;
+        }
+
+        #kont #msg-list-div{
+        overflow : scroll;
+        overflow-x : hidden;
+        }
+        @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+
+          .rating { 
+            border: none;
+            float: left;
+          }
+
+          .rating > input { display: none; } 
+          .rating > label:before { 
+            margin: 5px;
+            font-size: 1.25em;
+            font-family: FontAwesome;
+            display: inline-block;
+            content: "\f005";
+          }
+
+          .rating > .half:before { 
+            content: "\f089";
+            position: absolute;
+          }
+
+          .rating > label { 
+            color: #ddd; 
+           float: right; 
+          }
+
+          /***** CSS Magic to Highlight Stars on Hover *****/
+
+          .rating > input:checked ~ label, /* show gold star when clicked */
+          .rating:not(:checked) > label:hover, /* hover current star */
+          .rating:not(:checked) > label:hover ~ label { color: #FFD700;  } /* hover previous stars in list */
+
+          .rating > input:checked + label:hover, /* hover current star when changing rating */
+          .rating > input:checked ~ label:hover,
+          .rating > label:hover ~ input:checked ~ label, /* lighten current selection */
+          .rating > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+
+          .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px !important;
+          }
+          .btn-circle.btn-lg {
+            width: 50px;
+            height: 50px;
+            padding: 10px 16px;
+            font-size: 18px;
+            line-height: 1.33;
+            border-radius: 25px!important;
+          }
+</style>
+
+<div class="row margin-bottom-30">
+
+  <div class="col-md-5 front-carousel">
+
+    <div class="carousel slide" id="myCarousel">
+
+      <!-- Carousel items -->
+      <div class="carousel-inner">
+        <div class="item">
+          <img alt="" src="{{ instance.item_pic.url }}">
+          <div class="carousel-caption">
+            <p>{{ instance.item_name}}</p>
+            <p class="nos">{{ obj.likes.count }}</p>
+          </div>
+        </div>
+        <div class="item active">
+          <img alt="" src="{{ instance.item_pic.url }}">
+          <div class="carousel-caption">
+            <p>{{ instance.item_name}}</p>
+            <p class="nos">{{ obj.likes.count }}</p>
+          </div>
+        </div>
+        <div class="item">
+          <img alt="" src="{{ instance.item_pic.url }}">
+          <div class="carousel-caption">
+            <p>{{ instance.item_name}}</p>
+            <p class="nos">{{ obj.likes.count }}</p>
+          </div>
+        </div>
+
+        <button  id="like" onclick="setColor()" type="button"  class="desk action-button animate blue like-btn" data-href='{{ instance.get_api_like_url }}' data-likes='{{ instance.likes.count }}' name="button">{{ liked }}</button>
+      </div>
+      <!-- Carousel nav -->
+      <a data-slide="prev" href="#myCarousel" class="carousel-control left">
+        <i class="fa fa-angle-left"></i>
+      </a>
+      <a data-slide="next" href="#myCarousel" class="carousel-control right">
+        <i class="fa fa-angle-right"></i>
+      </a>
+
+    </div>
+  </br>
+    <!-- <button  onclick="showChart()">Show Chart</button> -->
+    <h2>Ratings</h2>
+    <canvas id="myChart" width="400" height="400">Ratings</canvas>
+
+  <!--   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        // for (var i = 0.; i < {{ u }}.length ; i++) {
+          console.log({{ u.rate }});
+        //}
+        var data = google.visualization.arrayToDataTable([
+          ['Ratings', 'Awesome ','Pretty good','Ok', 'Fair','Meh..','Kinda bad','Bad','Sucks','whorse','Never Buy','Remove it'],
+          ['2014', 1000, 400, 200 , 120 , 300 ,455, 333, 122 ,566 ,344, 577]
+        ]);
+
+        var options = {
+          chart: {
+            title: 'Customer Ratings',
+            subtitle: 'Previous Ratings',
+          },
+          bars: 'horizontal' // Required for Material Bar Charts.
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+    </script>
+    <div id="barchart_material" style="width: 300px; height: 550px;"></div>
+ -->
+  </div>
+  <div class="col-md-4">
+    <h2>{{ instance.item_name}}</h2>
+    <p>{{ instance.item_reason}}</p>
+    <p class="w3-tangerine">Price : {{ instance.item_exprice}}</p>
+    <p> TK. Only Buy it Now!!!</p>
+    <br>
+    <div class="row front-lists-v2 margin-bottom-15">
+      <div class="col-md-9">
+        <ul class="list-unstyled">
+
+          <li><i class="fa fa-globe"></i>Location : {{ instance.item_location }}</li>
+          <li><i class="fa fa-clock-o"></i>Use Time : Used only {{ instance.item_usetime }}</li>
+          <li><i class="fa fa-sitemap"></i>Product Type : {{ instance.item_type }}</li>
+          <li><i class="fa fa-cloud-upload"></i><strong>Uploader name : {{ instance.uploader }}</strong></li>
+        </br>
+         <script type="text/javascript">
+            $(document).on('submit','#rating_form',function(e) {
+             
+                e.preventDefault();
+        
+
+                  $.ajax({
+                    type : "POST",
+                    url: "{% url 'User:rating' %}",
+                    data: {
+                      dat : $('input[name=rating]:checked').val(),
+                      slug   : $('#s').val(),
+                      csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success: function(obj) {
+                      // alert(obj.msg);
+                      var fieldNameElement = document.getElementById("field_name");
+                      fieldNameElement.innerHTML = obj.msg;
+                      
+                     // alert(obj.u);
+                     var ctx = document.getElementById("myChart").getContext('2d');
+                      var myChart = new Chart(ctx, {
+                          type: 'bar',
+                          // type: 'horizontalBar',
+                          data: {
+                              labels: obj.lab,
+                              datasets: [{
+                                  label: '# of Votes',
+                                  data: obj.rr,
+                                  backgroundColor: [
+                                      'rgba(255, 99, 132, 1)',
+                                      'rgba(54, 162, 235, 1)',
+                                      'rgba(255, 206, 86, 1)',
+                                      'rgba(75, 192, 192, 1)',
+                                      'rgba(153, 102, 255, 1)',
+                                      'rgba(255, 159, 64, 1)',
+                                      'rgba(153, 102, 255, 1)',
+                                      'rgba(255, 159, 64, 1)',
+                                      'rgba(250, 102, 255, 1)'
+                                    
+                                  ],
+                                  borderColor: [
+                                      'rgba(255,99,132,1)',
+                                      'rgba(54, 162, 235, 1)',
+                                      'rgba(255, 206, 86, 1)',
+                                      'rgba(75, 192, 192, 1)',
+                                      'rgba(153, 102, 255, 1)',
+                                      'rgba(255, 159, 64, 1)',
+                                      'rgba(153, 102, 255, 1)',
+                                      'rgba(255, 159, 64, 1)',
+                                      'rgba(255, 159, 64, 1)'
+                                  ],
+                                  borderWidth: 1
+                              }]
+                          },
+                          options: {
+                              scales: {
+                                  yAxes: [{
+                                      ticks: {
+                                          beginAtZero:true
+                                      }
+                                  }]
+                                  // xAxes: [{
+                                  //     categoryPercentage: 2.0,
+                                  //     barPercentage: 2.0
+                                  // }]
+                              }
+                          }
+                      });
+
+                    }
+                  });
+                
+             });
+          </script>
+         <form id="rating_form" action="" method="post" name="form">
+              {% csrf_token %}
+          <h4>Rate This Item</h4>
+          <fieldset class="rating">
+              <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
+              <input type="radio" id="star4half" name="rating" value="4.5" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
+              <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
+              <input type="radio" id="star3half" name="rating" value="3.5" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
+              <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
+              <input type="radio" id="star2half" name="rating" value="2.5" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
+              <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
+              <input type="radio" id="star1half" name="rating" value="1.5" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
+              <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
+              <input type="radio" id="starhalf" name="rating" value="0.5" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
+          </fieldset></br></br>
+          
+          <input id="s" type="hidden" name="slug" value="{{ instance.slug }}">
+          <button  type="submit" id="snd" name="button" class="btn btn-info btn-circle btn-lg"><i class="glyphicon glyphicon-ok"></i></button>
+          <!-- <button type="submit" id="snd" name="button" class="btn btn-warning btn-circle btn-lg"><i class="glyphicon glyphicon-remove"></i></button> -->
+    
+          </form>
+          <div id="panel">
+            <div id="field_name"></div>
+          </div>
+          
+          
+        </ul>
+      </div>
+
+    </div>
+
+    <a class="btn btn-primary" onclick="myFunc();">Chat Box Show</a>
+
+  </div>
+  <div  class="col-md-3 ">
+
+
+
+
+    <p id="demo"></p>
+    <div id="kont">
+
+      <div style="position:absolute;top:2px;left :2px" class="back"></div>
+
+      <div id="name">
+          <label for="firstname">{{ instance.uploader }}</label>
+      </div>
+      <div class="img">
+
+            <!-- <img src="{{ instance.uploader.userprofileinfo.profilepic.url }}" height="50%" width="50%" class="img-responsive" alt="Mountains"> -->
+      </div>
+      <div class="bar">
+      </div>
+
+
+
+
+
+      <style media="screen">
+
+
+          .sidenav {
+            position: relative;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #560043;
+            overflow-x: hidden;
+          }
+
+          .sidenav li {
+            margin-left : 30px;
+            padding: 6px 18px 6px 16px;
+            text-decoration: none;
+            font-size: 15px;
+            color: #818181;
+            display: block;
+          }
+
+          .sidenav li:hover {
+            color: #f1f1f1;
+          }
+
+
+
+      </style>
+
+      <div id="msg-list-div">
+
+              <ul id="msg-list">
+                {% for obj in chat %}
+                    {% if instance.uploader == request.user.username  %}
+                        {% if request.user.username == obj.to %}
+                            <li class="b text-left list-group-item">
+                              <img src="{{ obj.user.userprofileinfo.profilepic.url }}" height="50%" width="50%" class="img-responsive" alt="Mountains">
+                              {{ obj.user }} : {{ obj.message }}</br>
+                              {{ obj.created }}
+                            </li>
+                        {% elif request.user.username == obj.fromm %}
+                            <li class="cont darker">
+                                <img src="{{ obj.user.userprofileinfo.profilepic.url }}" alt="Avatar" class="right" style="width:100%;">
+                                <p>{{ obj.user }} : {{ obj.message }}</p>
+                                <span class="time-left">{{ obj.created }}</span>
+                            </li>
+                        {% endif %}
+                    {% elif instance.uploader != request.user.username %}
+                        <li class="cont">
+                            <img src="{{ obj.user.userprofileinfo.profilepic.url }}" alt="Avatar" style="width:100%;">
+                            <p>{{ obj.user }} : {{ obj.message }}</p>
+                            <span class="time-right">  {{ obj.created }}</span>
+                        </li>
+                    {% endif %}
+                    {% empty %}
+                        <li class="text-right list-group-item">No messages yet!</li>
+                {% endfor %}
+
+              </ul>
+
+
+
+      </div>
+
+      <div class="footer">
+
+        <form class="text" id="chat-form" method="post" action="{% url 'User:post'  %}">
+            {% csrf_token %}
+            <div id="chat-bottom" class="input-group">
+
+                  <input placeholder="Type Here......" type="text" id="chat-msg" name="chat-msg" class="textarea form-control"/>
+
+                  <span class="input-group-btn">
+                      <input onclick="unction()" class="btn btn-default" id="send" type="submit" value="Send"/>
+                  </span>
+                  <input id="hide" type="hidden" name="id" value="{{ instance.uploader }}">
+                  <input id="docc" type="hidden" name="id3" value="{{ instance.uploader }}">
+                  <input id="itemname" type="hidden" name="id1" value="{{ instance.item_name }}">
+                  <input id="iteuploader" type="hidden" name="id2" value="{{ instance.uploader }}">
+                  <input  id="my"  type="hidden" name="" value="{{   instance.slug  }}" >
+                  <!-- <input type="text" name="" value="a"> -->
+            </div>
+
+        </form>
+
+
+      </div>
+
+      <script>
+
+      function handle(e){
+          address=document.getElementById("myInput").value;
+            if(e.keyCode === 13){
+            //write your specific code from here
+              alert("You are searching: " + address);
+            }
+          return false;
+          }
+          function myFunction() {
+              // Declare variables
+              var input, filter, ul, li, a, i;
+              input = document.getElementById('myInput');
+              filter = input.value.toUpperCase();
+              ul = document.getElementById("myUL");
+              li = ul.getElementsByTagName('li');
+
+              // Loop through all list items, and hide those who don't match the search query
+              for (i = 0; i < li.length; i++) {
+                  a = li[i].getElementsByTagName("a")[0];
+                  if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                      li[i].style.display = "";
+                  } else {
+                      li[i].style.display = "none";
+                  }
+              }
+          }
+
+      </script>
+      <script type="text/javascript">
+
+        function unction() {
+
+
+            document.getElementById("docc").value = document.getElementById("autocomplete").value ;
+            console.log(document.getElementById("autocomplete").value );
+
+        }
+        $( window ).on( "load", function() {
+
+               if("{{ user.username }}"=="{{ instance.uploader }}"){
+                    var myClock = document.getElementById('namess');
+                    myClock.style.display = 'display';
+               }
+               else {
+                 var myClock = document.getElementById('namess');
+                 myClock.style.display = 'none';
+                }
+      });
+      </script>
+      <style media="screen">
+          input[type="text"] {
+          background-color: transparent;
+          font-family:sans-serif;
+          font-size:20px;
+          outline:none;
+          border:0;
+          border-bottom:2px solid #aaa;
+          -o-transition:box-shadow .5s ease;
+          -moz-transition:box-shadow .5s ease;
+          -webkit-transition:box-shadow .5s ease;
+          -ms-transition:box-shadow .5s ease;
+          transition:box-shadow .5s ease;
+          box-shadow:0 0 0 0 #ddd inset;
+          box-sizing:border-box;
+          padding:5px;
+          }
+
+          input[type="text"]:focus{
+          box-shadow:0 0 0 20px #eee inset;
+          }
+
+          ::-webkit-input-placeholder {
+          color: #aaa;
+          opacity:1;
+          font-weight:100;
+          font-family:sans-serif;
+          }
+
+          :-moz-placeholder {
+          color: #aaa;
+          opacity:1;
+          font-weight:100;
+          font-family:sans-serif;
+          }
+
+          ::-moz-placeholder {
+          color: #aaa;
+          opacity:1;
+          font-weight:100;
+          font-family:sans-serif;
+          }
+
+          :-ms-input-placeholder {
+          color: #aaa;
+          opacity:1;
+          font-weight:100;
+          font-family:sans-serif;
+          }
+
+
+      </style>
+      <div id="namess" class="sidenav">
+          <input style="margin-left:20px;" type="text" id="autocomplete" title="type &quot;a&quot;" placeholder="selelect user">
+        <!-- {% for u in use %}
+      </hr></hr></hr>
+
+
+          <li><input  id="myBtn" onclick="unction('{{ u }}')" class="btn btn-primary" type="button" value="{{ u }}"></li>
+
+        {% endfor %} -->
+
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div class="col-md-9 col-sm-9 blog-item">
+
+
+    <h2>Comments</h2>
+    <ul id="commester" class="comments">
+      {% for comment in comments %}
+      <li class="media">
+        <a href="javascript:;" class="pull-left">
+        <img src="{{ comment.user.userprofileinfo.profilepic.url }}" alt="" class="media-object">
+        </a>
+        <div id="media-some" class="media-body">
+          <h4 id="commentss" class="media-heading">{{ comment.user }}<span>{{ comment.timestemp }} / <a href="javascript:;">Reply</a></span></h4>
+
+          <p id="sss">{{ comment.content }}</p>
+
+
+        </div>
+      </li>
+      {% endfor %}
+
+    </ul>
+
+    <div class="post-comment padding-top-40">
+      <h3>Leave a Comment</h3>
+
+      <form id="comm_form">
+        {% csrf_token %}
+        <!-- <button class="btn btn-primary" type="submit">Post a Comment</button> -->
+        <div id="" class="form-group">
+            <textarea placeholder="Type Here........" form="comm_form"  class="form-control" id="comm" rows="8" ></textarea>
+            <button class="btn btn-primary" type="submit" id="senderr">Post a Comment</button>
+
+        </div>
+
+        <!-- <input id="h" type="hidden" name="id" value="{{ user }}">-->
+        <input id="slug" type="hidden" name="id" value="{{ instance.slug }}">
+      </form>
+
+
+    </div>
+  </div>
+
+  </div>
+</div>
+
+  <!-- <img src="{{ instance.item_pic.url }}" class="img-responsive" alt="Mountains"width="240"> -->
+{% endblock %}
