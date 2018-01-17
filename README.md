@@ -1,5 +1,3 @@
-# Flea-Mart
-
 ![alt text](https://raw.githubusercontent.com/mainuddinrussel73/flea-mart-03/master/static/assets/corporate/img/logos/some.png)
 
 sudo fuser -k 8000/tcp //if port is in use then use this command
