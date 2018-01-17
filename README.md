@@ -1,5 +1,8 @@
 # Flea-Mart
-sudo fuser -k 8000/tcp //if port is in user then use this command
+
+![alt text](https://raw.githubusercontent.com/mainuddinrussel73/flea-mart-03/master/static/assets/corporate/img/logos/some.png)
+
+sudo fuser -k 8000/tcp //if port is in use then use this command
 
 sudo pip install Pillow
 
@@ -23,4 +26,4 @@ sudo pip install django[argon2]
 
 sudo pip instal FeedParser
 
-# for python 3.x use pip3 insteed of pip
+# for python 3.x use pip3 instead of pip
