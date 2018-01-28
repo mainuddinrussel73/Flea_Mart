@@ -68,8 +68,8 @@ def Rating(request):
             ll.insert(c,i.get('total'))
             c+=1
 
-        print(rr)
-        print(ll)
+        # print(rr)
+        # print(ll)
         if r.count()==0:
             rr = RatingInfo(user=request.user,item=ii,rate=rating)
             rr.save()
@@ -83,11 +83,22 @@ def Rating(request):
                 rr.insert(c,i.get('rate'))
                 ll.insert(c,i.get('total'))
                 c+=1
-            return JsonResponse({ 'msg': "Thank You For Rating This Item" ,"d":"done","rr":ll,"lab":rr})
+            return JsonResponse({ 'msg': "Thank You For Rating This Item" ,"d":"done","rr":ll,"lab":rr, "hh":hh })
         else:
-            return JsonResponse({ 'msg': "Thank You For Rating But You Can't Rate Twice on The Same Item" ,"d":"done","rr":ll,"lab":rr})
+            rr = RatingInfo.objects.filter(user=request.user,item=ii).update(rate = rating)
+            
+            k = RatingInfo.objects.filter(item=ii).values('rate').annotate(total=Count('rate')).order_by('-rate')
+        
+            hh = list(k.values('rate','total'))
+            ll = []
+            rr = []
+            c = 0
+            for i in hh:
+                rr.insert(c,i.get('rate'))
+                ll.insert(c,i.get('total'))
+                c+=1
+            return JsonResponse({ 'msg': "Thank You For Rating  again" ,"d":"done","rr":ll,"lab":rr, "hh":hh})
     # return HttpResponse(rating)
-
 def json_serial(obj):
     """JSON serializer for objects not serializable by default json code"""
 
@@ -640,11 +651,14 @@ def showitem(request,slug=None,id=None):
         # print(ins)
 
 
-
+    # r      =     RatingInfo.objects.filter(item=instance)
+    r = RatingInfo.objects.filter(item=instance).values('rate').annotate(total=Count('rate')).order_by('-rate')
+    print(r)
     use = User.objects.exclude(username=request.user.username)
     # print(counter)
     hhh = list(use.values('username'))
-    
+    al = SellItemInfo.objects.all().exclude(slug=slug).exclude(uploader=request.user)
+    print(al)
     # print(json.dumps(hhh))
     # for r in instance:
         # r.delete()
@@ -659,6 +673,8 @@ def showitem(request,slug=None,id=None):
         "comments" : comments,
         "v"    : v,
         "use" : json.dumps(hhh),
+        "r" : r,
+        "al" : al,
 
      }
     return render(request, 'firstapp/details.html', args,)

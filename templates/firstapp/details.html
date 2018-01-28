@@ -541,7 +541,7 @@ $(document).on('submit','#comm_form',function(e){
 
         #kont .bar {
         position:relative;
-        width:350px;
+        width:315px;
         height :52px;
         background : blue;
         opacity :0.4;
@@ -552,7 +552,7 @@ $(document).on('submit','#comm_form',function(e){
         #kont .footer {
             margin-top: 450px;
             background :#b2beb2;
-            width:350px;
+            width:315px;
             height :40px;
         /*position:absolute;
         z-index : -1;
@@ -580,14 +580,14 @@ $(document).on('submit','#comm_form',function(e){
         position:relative;
         margin-left:0px;
         top:5px;
-        width : 350px;
+        width : 315px;
         height:550px;
 
         border-radius : 5px;
         }
         #kont #msg-list-div{
         position:absolute;
-        width:350px;
+        width:315px;
         height:448px;
         background:rgba(255,255,255,0.2);
         opacity : 0.9;
@@ -638,7 +638,7 @@ $(document).on('submit','#comm_form',function(e){
         bottom:5px;
         border-radius: 0 20px 20px 20px;
         left:5px;
-        width:320px;
+        width:290px;
         height:40px;
         resize:none;
         }
@@ -753,9 +753,32 @@ $(document).on('submit','#comm_form',function(e){
     </div>
   </br>
     <!-- <button  onclick="showChart()">Show Chart</button> -->
-    <h2>Ratings</h2>
-    <canvas id="myChart" width="400" height="400">Ratings</canvas>
+   <div class="row recent-work margin-bottom-40">
+          <div class="col-md-12">
+            <h2><a href="portfolio.html">from same Uploader</a></h2>
+            <p></p>
+          </div>
+          <div class="col-md-12">
+            <div class="owl-carousel owl-carousel2">
+                {% for item in al %}
+                    <div class="recent-work-item">
+                      <em>
+                        <img src="{{ item.item_pic.url }}" alt="Amazing Project" class="img-responsive">
+                        <a href="{{  item.get_absolute_url }}"><i class="fa fa-link"></i></a>
+                        <a href="{{ item.item_pic.url }}" class="fancybox-button" title="{{ item.item_name }}" data-rel="fancybox-button"><i class="fa fa-search"></i></a>
+                      </em>
+                      <a class="recent-work-description" href="javascript:;">
+                        <strong>{{ item.item_name }}</strong>
+                        <b>{{ item.item_location }}</b>
+                      </a>
+                    </div>
+                {% endfor %}
 
+
+            </div>
+          </div>
+
+          </div>
   <!--   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
       google.charts.load('current', {'packages':['bar']});
@@ -786,6 +809,80 @@ $(document).on('submit','#comm_form',function(e){
     <div id="barchart_material" style="width: 300px; height: 550px;"></div>
  -->
   </div>
+   <style type="text/css">
+progress {
+width: 180px;
+height: 25px;
+border: 0px none;
+background-color: #E5E5E5;
+border-radius: 10px;
+padding: 4px 5px 5px 5px;
+}
+progress::-webkit-progress-bar {
+background-color: #E5E5E5;
+border-radius: 50px;
+padding: 2px;
+box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.2);
+}
+progress::-webkit-progress-value {
+border-radius: 50px;
+background:
+-webkit-linear-gradient(135deg, transparent, transparent 20%, rgba(0, 0, 0, 0.1) 33%, #45B565 50%, transparent 10%),
+-webkit-linear-gradient(top, #81CE97, #81CE97),
+-webkit-linear-gradient(left, #ba7448, #c4672d);
+background-size: 25px 14px, 100% 100%, 100% 100%;
+-webkit-animation: move 5s linear 0 infinite;
+
+}
+@-webkit-keyframes move {
+0% {background-position: 0px 0px, 0 0, 0 0}
+100% {background-position:100px 0px, 0 0, 0 0}
+}
+.progress-value3{
+color: #444;
+margin-left: 200px;
+margin-top: -24px;
+}
+.progress-value2{
+color: #444;
+margin-left: 200px;
+margin-top: -24px;
+}
+
+.progress-value4{
+color: #444;
+margin-left: 200px;
+margin-top: -24px;
+}
+.progress-value5{
+color: #444;
+margin-left: 200px;
+margin-top: -24px;
+}
+.progress-value6{
+color: #444;
+margin-left: 200px;
+margin-top: -24px;
+}
+.progress-value7{
+color: #444;
+margin-left: 200px;
+margin-top: -24px;
+}
+.progressDiv {
+width: 84%;
+background: #fcfcfc;
+height: 175px;
+border: 1px solid #ccc;
+position: relative;
+left: 7%;
+top: 100px;
+display: inline-block;
+border-radius: 2px;
+box-shadow: 0px 1px 1px 1px #ccc;
+}
+
+ </style>
   <div class="col-md-4">
     <h2>{{ instance.item_name}}</h2>
     <p>{{ instance.item_reason}}</p>
@@ -817,59 +914,31 @@ $(document).on('submit','#comm_form',function(e){
                     },
                     success: function(obj) {
                       // alert(obj.msg);
-                      var fieldNameElement = document.getElementById("field_name");
-                      fieldNameElement.innerHTML = obj.msg;
-                      
-                     // alert(obj.u);
-                     var ctx = document.getElementById("myChart").getContext('2d');
-                      var myChart = new Chart(ctx, {
-                          type: 'bar',
-                          // type: 'horizontalBar',
-                          data: {
-                              labels: obj.lab,
-                              datasets: [{
-                                  label: '# of Votes',
-                                  data: obj.rr,
-                                  backgroundColor: [
-                                      'rgba(255, 99, 132, 1)',
-                                      'rgba(54, 162, 235, 1)',
-                                      'rgba(255, 206, 86, 1)',
-                                      'rgba(75, 192, 192, 1)',
-                                      'rgba(153, 102, 255, 1)',
-                                      'rgba(255, 159, 64, 1)',
-                                      'rgba(153, 102, 255, 1)',
-                                      'rgba(255, 159, 64, 1)',
-                                      'rgba(250, 102, 255, 1)'
-                                    
-                                  ],
-                                  borderColor: [
-                                      'rgba(255,99,132,1)',
-                                      'rgba(54, 162, 235, 1)',
-                                      'rgba(255, 206, 86, 1)',
-                                      'rgba(75, 192, 192, 1)',
-                                      'rgba(153, 102, 255, 1)',
-                                      'rgba(255, 159, 64, 1)',
-                                      'rgba(153, 102, 255, 1)',
-                                      'rgba(255, 159, 64, 1)',
-                                      'rgba(255, 159, 64, 1)'
-                                  ],
-                                  borderWidth: 1
-                              }]
-                          },
-                          options: {
-                              scales: {
-                                  yAxes: [{
-                                      ticks: {
-                                          beginAtZero:true
-                                      }
-                                  }]
-                                  // xAxes: [{
-                                  //     categoryPercentage: 2.0,
-                                  //     barPercentage: 2.0
-                                  // }]
-                              }
-                          }
-                      });
+                      for (var i = 0;i< obj.hh.length ;i++) {
+                                if(obj.hh[i].rate  ==  0 ){
+                                        var g = document.getElementById("rater2").innerHTML = "Total : " + obj.hh[i].total;
+                                }
+                                if(obj.hh[i].rate  ==  1 ){
+                                        var g = document.getElementById("rater3").innerHTML = "Total : " + obj.hh[i].total;
+                                }
+                                if(obj.hh[i].rate  ==  2 ){
+                                        var g = document.getElementById("rater4").innerHTML = "Total : " + obj.hh[i].total;
+                                }
+                                if(obj.hh[i].rate  ==  3 ){
+                                        var g = document.getElementById("rater5").innerHTML = "Total : " + obj.hh[i].total;
+                                }
+                                if(obj.hh[i].rate ==  4 ){
+                                        var g = document.getElementById("rater6").innerHTML = "Total : " + obj.hh[i].total;
+                                }
+                                if(obj.hh[i].rate ==  5 ){
+                                        var g = document.getElementById("rater7").innerHTML ="Total : " +  obj.hh[i].total;
+                                }
+
+                               
+                                // var t = document.getElementById("progress_bar");
+                                // t.value = i
+                        }
+                     
 
                     }
                   });
@@ -897,17 +966,162 @@ $(document).on('submit','#comm_form',function(e){
           <!-- <button type="submit" id="snd" name="button" class="btn btn-warning btn-circle btn-lg"><i class="glyphicon glyphicon-remove"></i></button> -->
     
           </form>
-          <div id="panel">
-            <div id="field_name"></div>
-          </div>
+          
           
           
         </ul>
       </div>
 
     </div>
+    <div>
+        <h2>Ratings</h2>
+              {%  for i in r  %}
+                {%      if i.rate == "0"    %}
+                <p id="rater2">Total : {{  i.total  }}</p>
+                {# <progress id="progress3" max="5"  value="{{ i.rate }}"></progress><p id="pProgress3" ></p> #}
+                 <div class="p_bar_body"><progress id="progress_bar2" value="0"  max="5"></progress><div class="progress-value2">0 Star</div></div>
+                 {%  elif i.rate == "1"  %}
+                    <p id="rater3">Total : {{  i.total  }}</p>
+                {# <progress id="progress3" max="5"  value="{{ i.rate }}"></progress><p id="pProgress3" ></p> #}
+                 <div class="p_bar_body"><progress id="progress_bar3" value="1"  max="5"></progress><div class="progress-value3">1 Star</div></div>
+                 {%  elif i.rate == "2"  %}
+                    <p id="rater4">Total : {{  i.total  }}</p>
+                {# <progress id="progress3" max="5"  value="{{ i.rate }}"></progress><p id="pProgress3" ></p> #}
+                 <div class="p_bar_body"><progress id="progress_bar4" value="2"  max="5"></progress><div class="progress-value4">2 Star</div></div>
+                   {%  elif i.rate == "3"  %}
+                    <p id="rater5">Total : {{  i.total  }}</p>
+                {# <progress id="progress3" max="5"  value="{{ i.rate }}"></progress><p id="pProgress3" ></p> #}
+                 <div class="p_bar_body"><progress id="progress_bar5" value="3"  max="5"></progress><div class="progress-value5">3 Star</div></div>
+                   {%  elif i.rate == "4" %}
+                    <p id="rater6">Total :  {{  i.total  }}</p>
+                {# <progress id="progress3" max="5"  value="{{ i.rate }}"></progress><p id="pProgress3" ></p> #}
+                 <div class="p_bar_body"><progress id="progress_bar6" value="4"  max="5"></progress><div class="progress-value6">4 Star</div></div>
+                    {%  elif i.rate == "5"  %} 
+                   <p id="rater7">Total : {{  i.total  }}</p>
+                {# <progress id="progress3" max="5"  value="{{ i.rate }}"></progress><p id="pProgress3" ></p> #}
+                 <div class="p_bar_body"><progress id="progress_bar7" value="5"  max="5"></progress><div class="progress-value7">5 Star</div></div>
+                   
+                 {%  endif %}
+        {%  endfor  %}
+    </div>
+       <script type="text/javascript">
+                   
+   
+$(document).ready(function() {
+var progressbar1 = $('#progress_bar2');
+init7 = 0;
+time7 = (1000 / 160) * 5;
+// $('.progress-value2').html(0 + 'Rate');
 
-    <a class="btn btn-primary" onclick="myFunc();">Chat Box Show</a>
+var loading1 = function() {
+init7 += 0;
+addValue = progressbar1.val(init7);
+if (0 <= init7) {
+clearInterval(animate1);
+}
+};
+
+var animate1 = setInterval(function() {
+loading1();
+}, time7);
+});
+
+
+
+$(document).ready(function() {
+var progressbar2 = $('#progress_bar3');
+time2 = (1000 / 160) * 5;
+init2 = 0;
+// $('.progress-value3').html(1 + 'Rate');
+
+var loading = function() {
+init2 += 0.1;
+addValue = progressbar2.val(init2);
+if (1 <= init2) {
+clearInterval(animate2);
+}
+};
+
+var animate2 = setInterval(function() {
+loading();
+}, time2);
+});
+
+
+$(document).ready(function() {
+var progressbar3 = $('#progress_bar4');
+init3 = 0;
+time3 = (1000 / 160) * 5;
+// $('.progress-value4').html(2 + 'Rate');
+var loading = function() {
+init3 += 0.1;
+addValue = progressbar3.val(init3);
+if (2 <= init3) {
+clearInterval(animate3);
+}
+};
+var animate3 = setInterval(function() {
+loading();
+}, time3);
+});
+
+
+$(document).ready(function() {
+var progressbar4 = $('#progress_bar5');
+// $('.progress-value5').html(3 + 'Rate');
+init4 = 0;
+time4 = (1000 / 160) * 5;
+var loading = function() {
+init4 += 0.1;
+addValue = progressbar4.val(init4);
+if (3 <= init4) {
+clearInterval(animate4);
+}
+};
+
+var animate4  = setInterval(function() {
+loading();
+}, time4);
+});
+
+
+$(document).ready(function() {
+var progressbar5 = $('#progress_bar6');
+init5 = 0;
+time5 = (1000 / 160) * 5;
+// $('.progress-value6').html(4 + ' Rate');
+var loading = function() {
+init5 += 0.1;
+addValue = progressbar5.val(init5);
+if (4<= init5) {
+clearInterval(animate5);
+}
+};
+var animate5 = setInterval(function() {
+loading();
+}, time5);
+});
+
+
+$(document).ready(function() {
+var progressbar6 = $('#progress_bar7');
+init = 0;
+time = (1000 / 160) * 5;
+// $('.progress-value7').html(5 + 'Rate');
+var loading = function() {
+init += 0.1;
+addValue = progressbar6.val(init);
+if (5 <= init) {
+clearInterval(animate6);
+}
+};
+var animate6 = setInterval(function() {
+loading();
+}, time);
+});
+
+       </script>
+    </br><a class="btn btn-primary" onclick="myFunc();">Chat Box Show</a>
 
   </div>
   <div  class="col-md-3 ">
